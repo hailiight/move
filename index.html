@@ -1,0 +1,2806 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover">
+<meta name="theme-color" content="#0d1f1a">
+<title>Lifes Food · Q1/2026 · Giám Đốc Nhà Máy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=IBM+Plex+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════
+   DESIGN TOKENS
+══════════════════════════════════════════════════════ */
+:root{
+  --bg:  #0d1f1a;
+  --s1:  #122820;
+  --s2:  #163228;
+  --s3:  #1a3c30;
+  --bd:  #1e4a38;
+  --bd2: #285e48;
+
+  --jade:  #00e5a8;
+  --jade2: #00ffbb;
+  --jdim:  rgba(0,229,168,.12);
+  --jdim2: rgba(0,229,168,.22);
+  --jglow: rgba(0,229,168,.45);
+
+  --cyan:  #00d4ff;
+  --cdim:  rgba(0,212,255,.12);
+
+  --red:   #ff2d55;
+  --rdim:  rgba(255,45,85,.12);
+  --rglow: rgba(255,45,85,.4);
+
+  --amber: #ffb020;
+  --adim:  rgba(255,176,32,.12);
+
+  --blue:  #4d9eff;
+  --bdimx: rgba(77,158,255,.12);
+
+  --violet:#a855f7;
+  --vdim:  rgba(168,85,247,.12);
+
+  --text:  #f0faf4;
+  --t2:    #8dcfb8;
+  --t3:    #3a7a62;
+
+  --mono: 'IBM Plex Mono',monospace;
+  --sans: 'Outfit',sans-serif;
+  --head: 'Syne',sans-serif;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{font-size:14px}
+body{
+  background:var(--bg);color:var(--text);font-family:var(--sans);
+  min-height:100vh;min-height:100dvh;overflow-x:hidden;
+  padding-bottom:calc(72px + env(safe-area-inset-bottom,0px));
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── PC LAYOUT ── */
+@media(min-width:900px){
+  body{padding-bottom:0}
+  .z1{display:grid;grid-template-columns:220px 1fr;grid-template-rows:auto 1fr;min-height:100vh}
+  .hdr{grid-column:1/-1;grid-row:1}
+  .pc-sidebar{display:flex!important;grid-column:1;grid-row:2;flex-direction:column;
+    position:sticky;top:57px;height:calc(100vh - 57px);overflow-y:auto;
+    background:var(--s1);border-right:1px solid var(--bd);padding:16px 0;scrollbar-width:none}
+  .pc-sidebar::-webkit-scrollbar{display:none}
+  .pc-main{grid-column:2;grid-row:2;overflow-y:auto}
+  .bnav{display:none!important}
+  .view{padding:20px 28px}
+  .tabbar{display:none!important}
+  .kpi-strip{grid-template-columns:repeat(6,1fr)!important}
+  .kpi-strip .ks-wide{grid-column:span 2}
+}
+@media(min-width:1200px){.view{padding:24px 36px}}
+
+/* ═══ LAYOUT TOGGLE ═══ */
+/* Default: mobile (no class needed — base styles are mobile) */
+
+/* Force PC mode regardless of screen width */
+body.force-pc{padding-bottom:0!important}
+body.force-pc .z1{display:grid!important;grid-template-columns:220px 1fr!important;grid-template-rows:auto 1fr!important;min-height:100vh!important}
+body.force-pc .hdr{grid-column:1/-1!important;grid-row:1!important}
+body.force-pc .pc-sidebar{display:flex!important;grid-column:1!important;grid-row:2!important;
+  flex-direction:column!important;position:sticky!important;top:57px!important;
+  height:calc(100vh - 57px)!important;overflow-y:auto!important;
+  background:var(--s1)!important;border-right:1px solid var(--bd)!important;padding:16px 0!important;}
+body.force-pc .pc-main{grid-column:2!important;grid-row:2!important;overflow-y:auto!important}
+body.force-pc .bnav{display:none!important}
+body.force-pc .view{padding:20px 28px!important}
+body.force-pc .tabbar{display:none!important}
+body.force-pc .kpi-strip{grid-template-columns:repeat(6,1fr)!important}
+body.force-pc #mv-phases{grid-template-columns:repeat(3,1fr)!important}
+body.force-pc #mv-pillars{grid-template-columns:repeat(4,1fr)!important}
+
+/* Force mobile mode regardless of screen width */
+body.force-mobile{padding-bottom:calc(72px + env(safe-area-inset-bottom,0px))!important}
+body.force-mobile .z1{display:block!important}
+body.force-mobile .pc-sidebar{display:none!important}
+body.force-mobile .bnav{display:flex!important}
+body.force-mobile .view{padding:14px!important}
+body.force-mobile .tabbar{display:flex!important}
+body.force-mobile .kpi-strip{grid-template-columns:repeat(3,1fr)!important}
+body.force-mobile #mv-phases{grid-template-columns:1fr!important}
+body.force-mobile #mv-pillars{grid-template-columns:repeat(2,1fr)!important}
+
+
+/* ═══ MOVE PROJECT MANAGER ═══ */
+.mv-fb{padding:4px 13px;border-radius:20px;border:1px solid var(--bd);background:transparent;
+  color:var(--t2);font-family:var(--mono);font-size:10px;cursor:pointer;transition:all .15s;}
+.mv-fb:hover{border-color:var(--bd2);color:var(--text);}
+.mv-fb-on{border-color:rgba(0,229,168,.35)!important;background:rgba(0,229,168,.1)!important;color:var(--jade)!important;}
+.mv-oc{padding:3px 10px;border-radius:20px;border:1px solid var(--bd);background:transparent;
+  color:var(--t2);font-size:10px;cursor:pointer;transition:all .15s;font-family:var(--mono);}
+.mv-oc:hover{border-color:var(--bd2);color:var(--text);}
+.mv-oc-on{border-color:rgba(77,158,255,.35)!important;background:rgba(77,158,255,.1)!important;color:var(--blue)!important;}
+.mv-ai{width:100%;background:transparent;border:none;border-bottom:1px solid var(--bd);
+  color:var(--text);font-family:var(--mono);font-size:12px;padding:5px 0;outline:none;}
+.mv-ai::placeholder{color:var(--t3);}
+.mv-sel{background:var(--s2);border:1px solid var(--bd);color:var(--t2);
+  font-family:var(--mono);font-size:10px;padding:3px 7px;border-radius:5px;outline:none;cursor:pointer;}
+.mv-btn-ok{padding:4px 12px;border-radius:5px;border:none;background:var(--jade);
+  color:#0d1f1a;font-family:var(--mono);font-size:10px;font-weight:700;cursor:pointer;}
+.mv-btn-cxl{padding:4px 10px;border-radius:5px;border:1px solid var(--bd);
+  background:transparent;color:var(--t2);font-family:var(--mono);font-size:10px;cursor:pointer;}
+.mv-btn-add{width:100%;padding:6px 8px;border-radius:6px;border:1px dashed var(--bd);
+  background:transparent;color:var(--t3);font-family:var(--mono);font-size:10px;
+  cursor:pointer;text-align:left;transition:all .15s;}
+.mv-btn-add:hover{border-color:var(--bd2);color:var(--t2);background:var(--s2);}
+/* Task items */
+.mv-ti{display:flex;align-items:flex-start;gap:7px;padding:6px 7px;border-radius:7px;transition:background .12s;}
+.mv-ti:hover{background:var(--s2);}
+.mv-ti.mv-hidden{display:none!important;}
+.mv-cb{width:14px;height:14px;border-radius:3px;border:1.5px solid var(--t3);flex-shrink:0;
+  margin-top:2px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;}
+.mv-ti.mv-done .mv-cb{background:var(--jade);border-color:var(--jade);}
+.mv-ti.mv-done .mv-cb::after{content:'';width:6px;height:4px;border-left:1.5px solid #0d1f1a;
+  border-bottom:1.5px solid #0d1f1a;transform:rotate(-45deg) translateY(-1px);display:block;}
+.mv-ti.mv-done .mv-txt{text-decoration:line-through;color:var(--t3);}
+.mv-txt{font-size:12px;color:var(--t2);line-height:1.45;display:block;cursor:text;word-break:break-word;}
+.mv-txt:focus{outline:none;color:var(--text);}
+.mv-tag{font-family:var(--mono);font-size:9px;padding:1px 5px;border-radius:3px;cursor:pointer;
+  text-transform:uppercase;letter-spacing:.3px;border:1px solid transparent;}
+.mv-tag-M{background:rgba(0,229,168,.1);color:var(--jade);border-color:rgba(0,229,168,.25);}
+.mv-tag-O{background:rgba(77,158,255,.1);color:var(--blue);border-color:rgba(77,158,255,.25);}
+.mv-tag-V{background:rgba(255,176,32,.1);color:var(--amber);border-color:rgba(255,176,32,.25);}
+.mv-tag-E{background:rgba(255,45,85,.1);color:var(--red);border-color:rgba(255,45,85,.25);}
+.mv-owner{font-size:10px;color:var(--t3);cursor:pointer;padding:1px 5px;border-radius:3px;
+  border:1px solid transparent;transition:all .12s;}
+.mv-owner:hover{border-color:var(--bd);color:var(--t2);}
+.mv-due{font-family:var(--mono);font-size:9px;color:var(--t3);}
+.mv-due.mv-late{color:var(--red);}
+.mv-acts{display:flex;gap:2px;opacity:0;transition:opacity .12s;flex-shrink:0;margin-top:1px;}
+.mv-ti:hover .mv-acts{opacity:1;}
+.mv-ibtn{width:20px;height:20px;border-radius:3px;border:none;background:transparent;
+  color:var(--t3);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .12s;}
+.mv-ibtn:hover{background:var(--s3);color:var(--text);}
+.mv-ibtn.mv-del:hover{background:var(--rdim);color:var(--red);}
+@media(max-width:700px){#mv-phases{grid-template-columns:1fr!important;}}
+@media(max-width:520px){#mv-pillars{grid-template-columns:repeat(2,1fr)!important;}}
+
+
+/* ── AMBIENT BG ── */
+.bg-layer{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bg-orb1{position:absolute;top:-15%;left:50%;transform:translateX(-50%);
+  width:700px;height:400px;
+  background:radial-gradient(ellipse,rgba(0,229,168,.06) 0%,transparent 65%);
+  animation:orbFloat 9s ease-in-out infinite}
+.bg-orb2{position:absolute;bottom:-10%;right:-5%;width:400px;height:400px;
+  background:radial-gradient(ellipse,rgba(0,212,255,.04) 0%,transparent 60%);
+  animation:orbFloat 12s ease-in-out infinite reverse}
+.bg-grid{position:absolute;inset:0;
+  background-image:linear-gradient(rgba(0,229,168,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,229,168,.03) 1px,transparent 1px);
+  background-size:32px 32px}
+@keyframes orbFloat{0%,100%{transform:translateX(-50%) translateY(0) scale(1)}50%{transform:translateX(-50%) translateY(-25px) scale(1.04)}}
+
+.z1{position:relative;z-index:1}
+
+/* ── HERO FLASH ── */
+.hero-flash{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;
+  animation:heroFade 0.4s ease 2.2s forwards;pointer-events:none}
+@keyframes heroFade{to{opacity:0;visibility:hidden}}
+.hf-logo{width:68px;height:68px;background:linear-gradient(135deg,var(--jade),var(--cyan));
+  border-radius:18px;display:flex;align-items:center;justify-content:center;
+  font-family:var(--head);font-size:24px;font-weight:800;color:#0d1f1a;
+  box-shadow:0 0 50px var(--jglow),0 0 100px rgba(0,229,168,.14);
+  animation:logoPop .5s cubic-bezier(0.34,1.56,0.64,1) .15s both}
+@keyframes logoPop{from{transform:scale(.5);opacity:0}to{transform:scale(1);opacity:1}}
+.hf-name{font-family:var(--head);font-size:26px;font-weight:800;
+  background:linear-gradient(90deg,var(--jade),var(--cyan));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  animation:fadeUp .5s ease .4s both}
+.hf-sub{font-family:var(--mono);font-size:9px;color:var(--t2);letter-spacing:.22em;text-transform:uppercase;
+  animation:fadeUp .5s ease .6s both}
+.hf-bars{display:flex;gap:4px;animation:fadeUp .4s ease .8s both}
+.hf-bar{width:3px;border-radius:3px;background:var(--jade);animation:barPulse 1s ease-in-out infinite}
+.hf-bar:nth-child(1){height:10px}.hf-bar:nth-child(2){height:20px;animation-delay:.1s}
+.hf-bar:nth-child(3){height:16px;animation-delay:.2s}.hf-bar:nth-child(4){height:26px;animation-delay:.3s}
+.hf-bar:nth-child(5){height:12px;animation-delay:.4s}.hf-bar:nth-child(6){height:18px;animation-delay:.5s}
+@keyframes barPulse{0%,100%{opacity:.4;transform:scaleY(1)}50%{opacity:1;transform:scaleY(1.3)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── HEADER ── */
+.hdr{position:sticky;top:0;z-index:200;
+  background:rgba(13,31,26,.95);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--bd)}
+.hdr-top{display:flex;align-items:center;justify-content:space-between;padding:10px 16px 0}
+.brand{display:flex;align-items:center;gap:10px}
+.logo-wrap{position:relative;width:34px;height:34px;flex-shrink:0}
+.logo-ring{position:absolute;inset:0;border:1.5px solid var(--jade);border-radius:10px;
+  animation:ringPulse 2.5s ease-in-out infinite}
+@keyframes ringPulse{0%,100%{opacity:.45;box-shadow:0 0 0 0 var(--jdim2)}50%{opacity:1;box-shadow:0 0 0 4px transparent}}
+.logo-core{position:absolute;inset:4px;background:linear-gradient(135deg,var(--jade),var(--cyan));
+  border-radius:7px;display:flex;align-items:center;justify-content:center}
+.logo-lbl{font-family:var(--head);font-size:11px;font-weight:800;color:#0d1f1a}
+.brand-name{font-family:var(--head);font-size:17px;font-weight:800;color:var(--jade2);line-height:1;letter-spacing:-.02em}
+.brand-role{font-family:var(--mono);font-size:7.5px;color:var(--t2);letter-spacing:.16em;text-transform:uppercase;margin-top:2px}
+.hdr-right{display:flex;align-items:center;gap:10px}
+.live-badge{display:flex;align-items:center;gap:5px;background:var(--jdim);
+  border:1px solid rgba(0,229,168,.22);padding:3px 10px;border-radius:20px}
+.live-dot{width:5px;height:5px;background:var(--jade);border-radius:50%;
+  animation:blink 1.6s ease-in-out infinite;box-shadow:0 0 6px var(--jade)}
+.live-txt{font-family:var(--mono);font-size:7.5px;color:var(--jade);letter-spacing:.1em}
+.clock-box{text-align:right}
+.clock-t{font-family:var(--mono);font-size:18px;color:var(--text);letter-spacing:.02em;line-height:1}
+.clock-d{font-family:var(--mono);font-size:7.5px;color:var(--t3);letter-spacing:.08em;margin-top:2px}
+
+/* ── TABBAR ── */
+.tabbar{display:flex;overflow-x:auto;scrollbar-width:none;border-top:1px solid var(--bd);
+  padding:0 2px;touch-action:pan-x;overscroll-behavior-x:contain}
+.tabbar::-webkit-scrollbar{display:none}
+.tb{flex-shrink:0;padding:9px 15px;font-family:var(--mono);font-size:8.5px;
+  font-weight:500;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--t3);cursor:pointer;border-bottom:2px solid transparent;
+  transition:all .2s;white-space:nowrap;min-height:44px;display:flex;align-items:center}
+.tb:hover{color:var(--t2)}
+.tb.active{color:var(--jade);border-bottom-color:var(--jade)}
+.tb.act-tab.active{color:var(--amber);border-bottom-color:var(--amber)}
+
+/* ── PC SIDEBAR ── */
+.pc-sidebar{display:none}
+.pc-nav-item{display:flex;align-items:center;gap:10px;padding:10px 18px;
+  margin:2px 10px;border-radius:10px;font-family:var(--mono);font-size:8.5px;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--t3);cursor:pointer;
+  transition:all .2s;white-space:nowrap}
+.pc-nav-item:hover{color:var(--t2);background:rgba(255,255,255,.02)}
+.pc-nav-item.active{color:var(--jade);background:var(--jdim)}
+.pc-nav-item.act-nav.active{color:var(--amber);background:var(--adim)}
+.pc-nav-icon{font-size:15px;width:18px;text-align:center}
+.pc-sep{height:1px;background:var(--bd);margin:8px 14px}
+.pc-grp-lbl{font-family:var(--mono);font-size:7px;color:var(--t3);
+  letter-spacing:.2em;text-transform:uppercase;padding:8px 18px 4px}
+
+/* ── BOTTOM NAV ── */
+.bnav{position:fixed;bottom:0;left:0;right:0;
+  background:rgba(13,31,26,.97);backdrop-filter:blur(24px);
+  border-top:1px solid var(--bd);display:flex;
+  padding:6px 0 calc(6px + env(safe-area-inset-bottom,0px));z-index:200}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;
+  cursor:pointer;padding:4px 0;transition:all .2s;min-height:44px;justify-content:center}
+.ni-icon{font-size:18px;transition:all .2s}
+.ni-lbl{font-family:var(--mono);font-size:6.5px;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--t3)}
+.ni.active .ni-lbl{color:var(--jade)}
+.ni.active .ni-icon{filter:drop-shadow(0 0 5px var(--jade))}
+.ni.act-ni.active .ni-lbl{color:var(--amber)}
+.ni.act-ni.active .ni-icon{filter:drop-shadow(0 0 5px var(--amber))}
+
+/* ── VIEWS ── */
+.view{display:none;padding:14px;animation:fadeIn .22s ease}
+.view.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── SECTION DIVIDER ── */
+.sec{display:flex;align-items:center;gap:10px;margin:18px 0 10px}
+.sec-lbl{font-family:var(--mono);font-size:7.5px;color:var(--t2);
+  letter-spacing:.2em;text-transform:uppercase;white-space:nowrap}
+.sec-line{flex:1;height:1px;background:linear-gradient(90deg,var(--bd),transparent)}
+
+/* ── CARD ── */
+.card{background:var(--s1);border:1px solid var(--bd);border-radius:16px;
+  overflow:hidden;margin-bottom:12px;transition:border-color .3s}
+.card:hover{border-color:var(--bd2)}
+.card-hdr{padding:10px 14px;border-bottom:1px solid var(--bd);
+  display:flex;align-items:center;justify-content:space-between}
+.card-title{font-family:var(--mono);font-size:8px;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--jade)}
+.card-body{padding:12px 14px}
+
+/* ── XCARD ── */
+.xcard{background:var(--s2);border:1px solid var(--bd);border-radius:18px;
+  padding:14px 16px 12px;margin-bottom:12px;position:relative;overflow:hidden}
+.xcard::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(0,229,168,.25),transparent)}
+.xcard-hdr{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:12px}
+.xcard-title{font-family:var(--head);font-size:13px;font-weight:700;
+  color:var(--text);line-height:1.2;letter-spacing:-.01em}
+.xcard-sub{font-family:var(--mono);font-size:7.5px;color:var(--t2);
+  letter-spacing:.08em;margin-top:3px}
+.xbadge{font-family:var(--mono);font-size:8px;font-weight:700;
+  letter-spacing:.06em;padding:3px 9px;border-radius:20px;white-space:nowrap;flex-shrink:0}
+.xbadge-up{color:var(--jade);background:var(--jdim);border:1px solid rgba(0,229,168,.22)}
+.xbadge-dn{color:var(--red);background:var(--rdim);border:1px solid rgba(255,45,85,.2)}
+.xbadge-am{color:var(--amber);background:var(--adim);border:1px solid rgba(255,176,32,.22)}
+
+/* ── BADGE ── */
+.badge{font-family:var(--mono);font-size:8px;padding:2px 9px;border-radius:4px;
+  border:1px solid;letter-spacing:.05em;font-weight:600}
+.badge.g{color:var(--jade);border-color:rgba(0,229,168,.22);background:var(--jdim)}
+.badge.r{color:var(--red);border-color:rgba(255,45,85,.22);background:var(--rdim)}
+.badge.a{color:var(--amber);border-color:rgba(255,176,32,.22);background:var(--adim)}
+.badge.c{color:var(--cyan);border-color:rgba(0,212,255,.22);background:var(--cdim)}
+
+/* ── KPI STRIP ── */
+.kpi-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.ks{background:var(--s1);border:1px solid var(--bd);border-radius:14px;
+  padding:12px 10px;position:relative;overflow:hidden;text-align:center;
+  transition:all .22s}
+.ks:hover{border-color:var(--bd2);transform:translateY(-2px)}
+.ks::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px}
+.ks.ok::after{background:var(--jade)}.ks.warn::after{background:var(--amber)}
+.ks.bad::after{background:var(--red)}.ks.info::after{background:var(--cyan)}
+.ks-val{font-family:var(--head);font-size:26px;font-weight:800;
+  line-height:1;letter-spacing:-.03em;margin-bottom:3px}
+.ks.ok .ks-val{color:var(--jade2)}.ks.warn .ks-val{color:var(--amber)}
+.ks.bad .ks-val{color:var(--red)}.ks.info .ks-val{color:var(--cyan)}
+.ks-name{font-family:var(--mono);font-size:7px;color:var(--t3);
+  letter-spacing:.1em;text-transform:uppercase;margin-bottom:3px}
+.ks-delta{font-family:var(--mono);font-size:8px;font-weight:700}
+.ks.ok .ks-delta{color:var(--jade)}.ks.warn .ks-delta{color:var(--amber)}
+.ks.bad .ks-delta{color:var(--red)}.ks.info .ks-delta{color:var(--cyan)}
+
+/* ── OEE BULLET BAR ── */
+.oee-row{display:grid;grid-template-columns:116px 1fr 42px;align-items:center;
+  gap:9px;padding:7px 0;border-bottom:1px solid rgba(22,54,40,.5)}
+.oee-row:last-child{border-bottom:none}
+.oee-name{font-family:var(--sans);font-size:11px;font-weight:600;color:var(--text)}
+.oee-track{position:relative;height:20px;background:rgba(16,38,32,.9);border-radius:5px;overflow:visible}
+.oee-fill{position:absolute;top:0;left:0;height:100%;width:0;border-radius:5px;
+  transition:width 1.5s cubic-bezier(.34,1.2,.64,1)}
+.oee-target{position:absolute;top:-4px;bottom:-4px;width:2px;background:rgba(255,176,32,.95);z-index:2}
+.oee-diamond{position:absolute;top:-5px;width:8px;height:8px;background:var(--amber);
+  clip-path:polygon(50% 0%,100% 50%,50% 100%,0% 50%);z-index:3}
+.oee-num{font-family:var(--head);font-size:14px;font-weight:800;text-align:right;line-height:1}
+
+/* ── PROGRESS / OB BAR ── */
+.ob-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
+.ob-label{font-family:var(--mono);font-size:9px;color:var(--t2);
+  width:90px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ob-track{flex:1;height:9px;background:var(--bd);border-radius:5px;overflow:hidden;position:relative}
+.ob-fill{position:absolute;top:0;left:0;height:100%;width:0;border-radius:5px;
+  transition:width 1.4s cubic-bezier(.34,1.2,.64,1)}
+.ob-val{font-family:var(--mono);font-size:9px;font-weight:700;
+  min-width:46px;text-align:right}
+
+/* ── MANHOUR BARS ── */
+.mh-row{margin-bottom:10px}
+.mh-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.mh-name{font-size:11px;font-weight:600;color:var(--text)}
+.mh-nums{display:flex;align-items:center;gap:6px}
+.mh-badge{font-family:var(--mono);font-size:8px;font-weight:700;
+  padding:1px 7px;border-radius:3px}
+.mh-badge.over{color:var(--red);background:var(--rdim)}
+.mh-badge.ok{color:var(--jade);background:var(--jdim)}
+.mh-actual{font-family:var(--mono);font-size:11px;font-weight:700}
+.mh-target{font-family:var(--mono);font-size:9px;color:var(--t3)}
+.mh-track{position:relative;height:12px;background:rgba(22,54,40,.7);border-radius:6px;overflow:hidden}
+.mh-bg{position:absolute;top:0;left:0;height:100%;width:0;background:rgba(255,255,255,.07);
+  border-radius:6px;transition:width 1.2s ease}
+.mh-bar{position:absolute;top:2px;left:0;height:8px;width:0;border-radius:4px;
+  transition:width 1.6s cubic-bezier(.34,1.2,.64,1)}
+
+/* ── LOSS BARS ── */
+.loss-row{display:grid;grid-template-columns:110px 1fr 42px;align-items:center;
+  gap:8px;margin-bottom:8px}
+.loss-name{font-family:var(--sans);font-size:11px;font-weight:600;color:var(--text)}
+.loss-track{position:relative;height:10px;background:var(--bd);border-radius:5px;overflow:hidden}
+.loss-fill{position:absolute;top:0;left:0;height:100%;width:0;border-radius:5px;
+  transition:width 1.4s cubic-bezier(.34,1.2,.64,1)}
+.loss-tgt{position:absolute;top:0;bottom:0;width:2px;background:rgba(255,176,32,.9)}
+.loss-val{font-family:var(--mono);font-size:10px;font-weight:700;text-align:right}
+
+/* ── NL GRID CARDS ── */
+.nl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.nl-cell{background:var(--s2);border:1px solid;border-radius:12px;padding:10px 7px;
+  text-align:center;transition:transform .2s}
+.nl-cell:hover{transform:translateY(-2px)}
+.nl-cell.ok{border-color:rgba(0,229,168,.2);border-top:2px solid var(--jade)}
+.nl-cell.over{border-color:rgba(255,45,85,.25);border-top:2px solid var(--red)}
+.nl-val{font-family:var(--head);font-size:17px;font-weight:800;line-height:1;margin-bottom:2px}
+.nl-cell.ok .nl-val{color:var(--jade)}.nl-cell.over .nl-val{color:var(--red)}
+.nl-tgt{font-family:var(--mono);font-size:7px;color:var(--t3)}
+.nl-name{font-family:var(--mono);font-size:7.5px;color:var(--t2);
+  letter-spacing:.05em;margin-top:3px}
+
+/* ── INSIGHT ── */
+.insight{background:var(--s2);border:1px solid var(--bd);
+  border-left:3px solid;border-radius:0 12px 12px 0;padding:12px 14px;margin-bottom:8px}
+.insight.g{border-left-color:var(--jade)}.insight.a{border-left-color:var(--amber)}
+.insight.r{border-left-color:var(--red)}.insight.v{border-left-color:var(--violet)}
+.ins-tag{font-family:var(--mono);font-size:7.5px;letter-spacing:.15em;
+  text-transform:uppercase;margin-bottom:5px}
+.insight.g .ins-tag{color:var(--jade)}.insight.a .ins-tag{color:var(--amber)}
+.insight.r .ins-tag{color:var(--red)}.insight.v .ins-tag{color:var(--violet)}
+.ins-txt{font-size:12px;font-weight:600;color:var(--text);line-height:1.5}
+.ins-detail{font-size:11px;color:var(--t2);margin-top:3px;line-height:1.55}
+
+/* ── TROW ── */
+.trow{display:flex;align-items:center;gap:10px;padding:9px 0;
+  border-bottom:1px solid var(--bd)}
+.trow:last-child{border-bottom:none}
+.trow-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.trow-name{font-size:12px;font-weight:600;color:var(--text)}
+.trow-sub{font-family:var(--mono);font-size:8px;color:var(--t2);margin-top:1px}
+.trow-right{text-align:right;flex-shrink:0}
+.trow-val{font-family:var(--mono);font-size:11px;color:var(--t2)}
+.trow-tag{font-family:var(--mono);font-size:8px;font-weight:700;margin-top:1px}
+.trow-tag.g{color:var(--jade)}.trow-tag.r{color:var(--red)}.trow-tag.a{color:var(--amber)}
+
+/* ── AC CARD (Action Plan) ── */
+.ac-card{display:flex;margin-bottom:12px;border-radius:18px;overflow:hidden;
+  border:1px solid var(--bd2);transition:transform .2s,box-shadow .2s}
+.ac-card:hover{transform:translateY(-2px)}
+.ac-critical{background:linear-gradient(135deg,rgba(255,45,85,.12),rgba(255,100,60,.05),var(--s2));
+  border-color:rgba(255,45,85,.32)}
+.ac-critical:hover{box-shadow:0 8px 30px rgba(255,45,85,.18)}
+.ac-warning{background:linear-gradient(135deg,rgba(255,176,32,.10),rgba(255,130,0,.04),var(--s2));
+  border-color:rgba(255,176,32,.28)}
+.ac-warning:hover{box-shadow:0 8px 30px rgba(255,176,32,.15)}
+.ac-good{background:linear-gradient(135deg,rgba(0,229,168,.08),rgba(0,212,255,.04),var(--s2));
+  border-color:rgba(0,229,168,.22)}
+.ac-good:hover{box-shadow:0 8px 28px rgba(0,229,168,.12)}
+.ac-info{background:linear-gradient(135deg,rgba(77,158,255,.08),var(--s2));
+  border-color:rgba(77,158,255,.22)}
+.ac-card-left{display:flex;flex-direction:column;align-items:center;
+  padding:16px 10px 16px 14px;flex-shrink:0}
+.ac-pri{position:relative;width:44px;height:44px;flex-shrink:0}
+.ac-pri-svg{position:absolute;top:0;left:0;width:44px;height:44px}
+.ac-pri-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--head);font-size:16px;font-weight:800}
+.ac-pri-red .ac-pri-num{color:var(--red)}.ac-pri-amber .ac-pri-num{color:var(--amber)}
+.ac-pri-jade .ac-pri-num{color:var(--jade)}.ac-pri-blue .ac-pri-num{color:var(--blue)}
+.ac-vline{width:2px;flex:1;margin-top:6px;border-radius:1px;min-height:14px}
+.ac-vline-red{background:linear-gradient(180deg,rgba(255,45,85,.5),transparent)}
+.ac-vline-amber{background:linear-gradient(180deg,rgba(255,176,32,.5),transparent)}
+.ac-vline-jade{background:linear-gradient(180deg,rgba(0,229,168,.4),transparent)}
+.ac-card-body{flex:1;padding:14px 16px 14px 6px;min-width:0}
+.ac-meta{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.ac-chip{font-family:var(--mono);font-size:7.5px;font-weight:700;
+  padding:2px 9px;border-radius:10px;letter-spacing:.05em}
+.ac-chip-red{color:var(--red);background:var(--rdim);border:1px solid rgba(255,45,85,.28)}
+.ac-chip-amber{color:var(--amber);background:var(--adim);border:1px solid rgba(255,176,32,.25)}
+.ac-chip-jade{color:var(--jade);background:var(--jdim);border:1px solid rgba(0,229,168,.22)}
+.ac-chip-blue{color:var(--blue);background:var(--bdimx);border:1px solid rgba(77,158,255,.22)}
+.ac-chip-violet{color:var(--violet);background:var(--vdim);border:1px solid rgba(168,85,247,.22)}
+.ac-deadline{font-family:var(--mono);font-size:8px;color:var(--t3)}
+.ac-title{font-family:var(--head);font-size:clamp(13px,2.5vw,16px);font-weight:700;
+  color:var(--text);margin-bottom:6px;line-height:1.3}
+.ac-desc{font-size:11px;color:var(--t2);line-height:1.55;margin-bottom:8px}
+.ac-owner{font-family:var(--mono);font-size:8px;color:var(--t3);margin-top:6px}
+.ac-impact-lbl{font-family:var(--mono);font-size:7.5px;color:var(--t3);margin-bottom:4px}
+.ac-impact-track{height:5px;background:var(--bd);border-radius:3px;overflow:hidden;margin-bottom:3px}
+.ac-impact-fill{height:100%;border-radius:3px;width:0;transition:width 1.6s .4s ease}
+.ac-impact-val{font-family:var(--mono);font-size:8px;font-weight:700}
+
+/* ── ALERT ── */
+.alert-box{background:var(--adim);border:1px solid rgba(255,176,32,.25);
+  border-left:3px solid var(--amber);border-radius:12px;padding:11px 14px;
+  margin-bottom:14px;position:relative;animation:alertPulse 3s ease-in-out infinite}
+@keyframes alertPulse{0%,100%{box-shadow:0 0 0 0 transparent}50%{box-shadow:0 0 14px rgba(255,176,32,.15)}}
+.alert-close{position:absolute;top:8px;right:10px;font-size:13px;
+  color:var(--t3);cursor:pointer;padding:4px}
+
+/* ── WKHERO (stats banner) ── */
+.wk-hero{position:relative;overflow:hidden;
+  background:linear-gradient(135deg,rgba(0,229,168,.07),rgba(0,212,255,.04),transparent);
+  border:1px solid var(--bd);border-radius:20px;padding:14px 16px;margin-bottom:14px}
+.wk-glow{position:absolute;top:-25px;right:-20px;width:110px;height:110px;
+  background:radial-gradient(circle,rgba(0,229,168,.13),transparent 70%);pointer-events:none}
+.wk-inner{position:relative}
+.wk-label{display:flex;align-items:center;gap:7px;margin-bottom:12px;
+  font-family:var(--mono);font-size:8px;color:var(--jade);letter-spacing:.16em;font-weight:600}
+.wk-pulse{width:6px;height:6px;background:var(--jade);border-radius:50%;
+  box-shadow:0 0 8px var(--jade);animation:blink .9s step-start infinite;flex-shrink:0}
+.wk-stats{display:grid;grid-template-columns:1fr 1px 1fr 1px 1fr 1px 1fr;align-items:center}
+.wk-stat{text-align:center;padding:0 4px}
+.wk-stat-val{font-family:var(--head);font-size:clamp(16px,3.5vw,22px);
+  font-weight:800;line-height:1;letter-spacing:-.02em}
+.wk-stat-lbl{font-family:var(--mono);font-size:7px;color:var(--t3);
+  letter-spacing:.08em;margin-top:3px}
+.wk-div{width:1px;height:28px;background:var(--bd2)}
+
+/* ── WK TABLE ── */
+.wkt-head,.wkt-row{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1fr;padding:7px 14px}
+.wkt-head{background:var(--s1);border-bottom:1px solid var(--bd2)}
+.wkt-row{border-bottom:1px solid var(--bd);transition:background .12s}
+.wkt-row:hover{background:var(--s1)}
+.wkt-row:last-child{border-bottom:none}
+.wkt-c{font-family:var(--mono);font-size:9px;color:var(--t2);display:flex;align-items:center}
+.wkt-head .wkt-c{font-size:7px;color:var(--t3);letter-spacing:.1em;text-transform:uppercase;font-weight:600}
+.wkt-day{color:var(--text)!important;font-weight:600}
+.wkt-g{color:var(--jade)!important}.wkt-a{color:var(--amber)!important}.wkt-r{color:var(--red)!important}
+
+/* ── RADAR SVG ── */
+.radar-wrap{display:flex;justify-content:center;padding:4px 0 8px}
+
+/* ── PROG ── */
+.prog-full{height:5px;background:var(--bd);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;border-radius:3px;transition:width 1.5s cubic-bezier(.4,0,.2,1)}
+
+/* ── TOAST ── */
+.toast-wrap{position:fixed;bottom:80px;right:14px;z-index:999;
+  display:flex;flex-direction:column;gap:6px;pointer-events:none}
+.toast{background:var(--s1);border:1px solid var(--bd2);border-left:3px solid var(--jade);
+  padding:9px 14px;border-radius:10px;font-size:11px;color:var(--text);
+  display:flex;align-items:center;gap:8px;animation:toastIn .3s ease;
+  max-width:260px;pointer-events:auto;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+@keyframes toastIn{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:translateX(0)}}
+
+/* ── SCROLLBAR ── */
+@media(min-width:900px){
+  ::-webkit-scrollbar{width:4px;height:4px}
+  ::-webkit-scrollbar-track{background:var(--bg)}
+  ::-webkit-scrollbar-thumb{background:var(--bd2);border-radius:4px}
+}
+
+/* ── HOVER LIFT ── */
+@media(hover:hover){
+  .ks:hover{transform:translateY(-2px)}
+  .card:hover{border-color:var(--bd2)}
+  .xcard:hover{border-color:var(--bd2)}
+}
+
+/* ── KEYFRAMES ── */
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+@keyframes shimmer{0%{opacity:.6}100%{opacity:1}}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ══════════════════════════════════════════
+   ACTION PLAN — to-do list
+══════════════════════════════════════════ */
+.act-wrap{max-width:900px;margin:0 auto;padding:6px 0 60px;}
+
+/* Hero */
+.act-hero{display:flex;align-items:flex-end;justify-content:space-between;
+  gap:16px;padding:18px 0 20px;border-bottom:1px solid var(--bd);margin-bottom:20px;flex-wrap:wrap;}
+.act-eyebrow{font-family:var(--mono);font-size:8px;color:var(--jade);
+  letter-spacing:.28em;text-transform:uppercase;margin-bottom:8px;
+  display:flex;align-items:center;gap:8px;}
+.act-pulse{width:5px;height:5px;border-radius:50%;background:var(--jade);
+  box-shadow:0 0 10px var(--jade);flex-shrink:0;animation:blink .9s step-start infinite;}
+.act-h1{font-family:var(--head);font-size:clamp(24px,6vw,36px);font-weight:800;
+  color:var(--text);letter-spacing:-.02em;line-height:1;margin-bottom:5px;}
+.act-h1-em{color:var(--jade);font-style:italic;}
+.act-hero-sub{font-size:12px;color:var(--t2);font-weight:300;}
+.act-hero-right{flex-shrink:0;min-width:180px;}
+.act-stats{display:flex;align-items:center;gap:12px;}
+.act-stat{text-align:center;}
+.act-stat-n{font-family:var(--head);font-size:26px;font-weight:800;color:var(--text);line-height:1;}
+.act-stat-done{color:var(--jade);}
+.act-stat-late{color:var(--red);}
+.act-stat-l{font-family:var(--mono);font-size:8px;color:var(--t3);margin-top:2px;}
+.act-stat-div{width:1px;height:28px;background:var(--bd);}
+
+/* Toolbar */
+.act-toolbar{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap;}
+.act-filters{display:flex;align-items:center;gap:7px;flex:1;flex-wrap:wrap;}
+.act-seg{display:flex;gap:2px;background:var(--s2);border:1px solid var(--bd);
+  border-radius:20px;padding:3px;flex-shrink:0;}
+.act-f,.act-p{padding:4px 12px;border-radius:16px;border:none;background:transparent;
+  color:var(--t2);font-family:var(--mono);font-size:10px;cursor:pointer;transition:all .15s;white-space:nowrap;}
+.act-f:hover,.act-p:hover{color:var(--text);}
+.act-f-on{background:rgba(0,229,168,.18)!important;color:var(--jade)!important;font-weight:700;}
+.act-p-on{background:var(--s3)!important;color:var(--text)!important;font-weight:700;}
+.act-p-red.act-p-on{background:rgba(255,45,85,.2)!important;color:var(--red)!important;}
+.act-p-amb.act-p-on{background:rgba(255,176,32,.18)!important;color:var(--amber)!important;}
+.act-p-grn.act-p-on{background:rgba(0,229,168,.18)!important;color:var(--jade)!important;}
+.act-search{padding:6px 14px;border-radius:20px;border:1px solid var(--bd);
+  background:transparent;color:var(--text);font-family:var(--mono);font-size:11px;
+  outline:none;width:160px;transition:border .15s;}
+.act-search:focus{border-color:var(--jade);}
+.act-search::placeholder{color:var(--t3);}
+.act-add-btn{display:flex;align-items:center;gap:7px;padding:8px 18px;
+  border-radius:20px;border:none;background:var(--jade);color:#0d1f1a;
+  font-family:var(--mono);font-size:11px;font-weight:700;cursor:pointer;
+  transition:all .2s;white-space:nowrap;flex-shrink:0;
+  box-shadow:0 0 16px rgba(0,229,168,.25);}
+.act-add-btn:hover{opacity:.85;box-shadow:0 0 24px rgba(0,229,168,.4);}
+
+/* Form */
+.act-form-wrap{margin-bottom:16px;animation:fadeIn .22s ease both;}
+.act-form-inner{background:var(--s2);border:1px solid var(--jade);border-radius:18px;
+  padding:20px 18px;box-shadow:0 0 32px rgba(0,229,168,.08);}
+.act-form-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
+.act-form-title{font-family:var(--head);font-size:15px;font-weight:800;color:var(--jade2);}
+.act-form-close{width:28px;height:28px;border-radius:50%;border:1px solid var(--bd2);
+  background:transparent;color:var(--t2);cursor:pointer;font-size:12px;
+  display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.act-form-close:hover{background:var(--rdim);color:var(--red);border-color:var(--red);}
+.act-field{margin-bottom:12px;}
+.act-field-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:12px;}
+.act-lbl{font-family:var(--mono);font-size:8.5px;color:var(--t3);letter-spacing:.12em;
+  text-transform:uppercase;display:block;margin-bottom:5px;}
+.act-inp{width:100%;background:var(--s1);border:1px solid var(--bd);color:var(--text);
+  font-family:var(--sans);font-size:12.5px;padding:9px 12px;border-radius:10px;
+  outline:none;transition:border .15s;-webkit-appearance:none;}
+.act-inp:focus{border-color:var(--jade);}
+.act-sel{cursor:pointer;}
+.act-inp-date{font-family:var(--mono);font-size:11px;color:var(--t2);}
+.act-textarea{resize:vertical;min-height:60px;font-size:12px;line-height:1.5;}
+.act-form-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:4px;}
+.act-btn-cxl{padding:8px 16px;border-radius:10px;border:1px solid var(--bd2);
+  background:transparent;color:var(--t2);font-family:var(--sans);font-size:12px;cursor:pointer;transition:all .15s;}
+.act-btn-cxl:hover{color:var(--text);border-color:var(--bd2);}
+.act-btn-save{padding:8px 22px;border-radius:10px;border:none;background:var(--jade);
+  color:#0d1f1a;font-family:var(--sans);font-size:12px;font-weight:700;cursor:pointer;
+  transition:all .15s;box-shadow:0 0 12px rgba(0,229,168,.3);}
+.act-btn-save:hover{opacity:.88;}
+
+/* Task cards */
+.act-card{position:relative;background:var(--s1);border:1px solid var(--bd);
+  border-radius:14px;padding:14px 14px 12px;margin-bottom:8px;
+  transition:border-color .2s,transform .2s,box-shadow .2s;
+  border-left:3px solid transparent;animation:fadeIn .25s ease both;}
+.act-card:hover{transform:translateX(3px);box-shadow:4px 0 20px rgba(0,0,0,.25);}
+.act-card.pri-high{border-left-color:var(--red);}
+.act-card.pri-mid{border-left-color:var(--amber);}
+.act-card.pri-low{border-left-color:var(--jade);}
+.act-card.st-done{opacity:.55;}
+.act-card.st-done .act-card-txt{text-decoration:line-through;color:var(--t3);}
+.act-card.st-hold{border-left-color:var(--violet);opacity:.75;}
+.act-card.act-hidden{display:none!important;}
+.act-card-top{display:flex;align-items:flex-start;gap:10px;margin-bottom:8px;}
+.act-cb{width:18px;height:18px;border-radius:5px;border:2px solid var(--bd2);
+  flex-shrink:0;margin-top:1px;cursor:pointer;transition:all .2s;
+  display:flex;align-items:center;justify-content:center;}
+.act-cb:hover{border-color:var(--jade);}
+.act-card.st-done .act-cb{background:var(--jade);border-color:var(--jade);}
+.act-card.st-done .act-cb::after{content:'✓';font-size:11px;font-weight:800;color:#0d1f1a;}
+.act-card-body{flex:1;min-width:0;}
+.act-card-txt{font-size:13px;color:var(--text);line-height:1.45;margin-bottom:4px;word-break:break-word;}
+.act-card-meta{display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+.act-pri-badge{font-family:var(--mono);font-size:8px;font-weight:700;
+  padding:2px 8px;border-radius:8px;border:1px solid transparent;letter-spacing:.04em;}
+.act-owner-badge{font-family:var(--mono);font-size:9px;color:var(--t2);
+  background:var(--s2);border:1px solid var(--bd);padding:2px 9px;border-radius:8px;
+  display:flex;align-items:center;gap:4px;}
+.act-due{font-family:var(--mono);font-size:9px;color:var(--t3);}
+.act-due.late{color:var(--red);font-weight:700;}
+.act-due.soon{color:var(--amber);}
+.act-status-badge{font-family:var(--mono);font-size:8px;font-weight:700;
+  padding:2px 8px;border-radius:8px;letter-spacing:.05em;}
+.act-card-actions{display:flex;gap:4px;flex-shrink:0;opacity:0;transition:opacity .15s;}
+.act-card:hover .act-card-actions{opacity:1;}
+.act-icon-btn{width:26px;height:26px;border-radius:7px;border:1px solid var(--bd);
+  background:transparent;color:var(--t3);cursor:pointer;font-size:12px;
+  display:flex;align-items:center;justify-content:center;transition:all .15s;}
+.act-icon-btn:hover{background:var(--s2);color:var(--text);border-color:var(--bd2);}
+.act-icon-btn.del:hover{background:var(--rdim);color:var(--red);border-color:var(--red);}
+.act-note{font-size:11px;color:var(--t3);margin-top:7px;padding-top:7px;
+  border-top:1px solid var(--bd);line-height:1.5;}
+/* Empty */
+.act-empty{text-align:center;padding:56px 20px;color:var(--t3);}
+@media(max-width:600px){
+  .act-field-row{grid-template-columns:1fr!important;}
+  .act-hero{flex-direction:column;align-items:flex-start;}
+  .act-hero-right{width:100%;}
+}
+
+</style>
+</head>
+<body>
+
+<!-- HERO FLASH -->
+<div class="hero-flash" id="heroFlash">
+  <div class="hf-logo">LF</div>
+  <div class="hf-name">Lifes Food</div>
+  <div class="hf-sub">Báo Cáo Nhà Máy Q1 · 2026</div>
+  <div class="hf-bars">
+    <div class="hf-bar"></div><div class="hf-bar"></div><div class="hf-bar"></div>
+    <div class="hf-bar"></div><div class="hf-bar"></div><div class="hf-bar"></div>
+  </div>
+</div>
+
+<!-- BG -->
+<div class="bg-layer">
+  <div class="bg-orb1"></div><div class="bg-orb2"></div><div class="bg-grid"></div>
+</div>
+
+<div class="z1">
+
+<!-- PC SIDEBAR -->
+<nav class="pc-sidebar" id="pcSidebar">
+  <div class="pc-grp-lbl">Dashboard</div>
+  <div class="pc-nav-item active" data-view="q1" onclick="sw('q1')">
+    <span class="pc-nav-icon">📊</span><span>Q1 2026</span>
+  </div>
+  <div class="pc-nav-item" data-view="defects" onclick="sw('defects')">
+    <span class="pc-nav-icon">🌿</span><span>Core Values</span>
+  </div>
+  <div class="pc-sep"></div>
+  <div class="pc-nav-item act-nav" data-view="action" onclick="sw('action')">
+    <span class="pc-nav-icon">⚡</span><span>Action Plan</span>
+  </div>
+  <div class="pc-nav-item" data-view="detail" onclick="sw('detail')">
+    <span class="pc-nav-icon">📋</span><span>Chi Tiết Q1</span>
+  </div>
+</nav>
+
+<!-- MAIN -->
+<div class="pc-main">
+
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-top">
+    <div class="brand">
+      <div class="logo-wrap">
+        <div class="logo-ring"></div>
+        <div class="logo-core"><div class="logo-lbl">LF</div></div>
+      </div>
+      <div>
+        <div class="brand-name">Lifes Food</div>
+        <div class="brand-role">Giám Đốc Nhà Máy · Q1/2026</div>
+      </div>
+    </div>
+    <div class="hdr-right">
+      <div class="live-badge"><div class="live-dot"></div><div class="live-txt">1 CA</div></div>
+      <div class="clock-box">
+        <div class="clock-t" id="clk">--:--</div>
+        <div class="clock-d" id="cld">--/--</div>
+      </div>
+    </div>
+  </div>
+  <div class="tabbar">
+    <div class="tb active" data-view="q1">📊 Q1 2026</div>
+    <div class="tb" data-view="defects">🌿 Core Values</div>
+    <div class="tb act-tab" data-view="action">⚡ Action Plan</div>
+    <div class="tb" data-view="detail">📋 Chi Tiết</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════
+     VIEW: Q1 2026
+════════════════════════════════════ -->
+<div class="view active" id="v-q1">
+
+<!-- HERO BANNER -->
+<div class="wk-hero" style="margin-bottom:16px;">
+  <div class="wk-glow"></div>
+  <div class="wk-inner">
+    <div class="wk-label">
+      <span class="wk-pulse"></span>
+      KẾT QUẢ SẢN XUẤT · Q1/2026 · TÂY NINH
+    </div>
+    <!-- Big headline -->
+    <div style="font-family:var(--head);font-size:clamp(28px,8vw,44px);font-weight:800;
+      line-height:1.05;letter-spacing:-.03em;margin-bottom:6px;">
+      <span style="color:var(--jade2);text-shadow:0 0 40px rgba(0,255,187,.25);"
+        class="count-up" data-target="13935751" data-fmt="M">0</span>
+      <span style="font-size:.45em;color:rgba(255,255,255,.3);font-weight:300;margin-left:6px;">đơn vị</span>
+    </div>
+    <div style="font-family:var(--sans);font-size:12px;color:var(--t2);
+      font-weight:300;line-height:1.6;margin-bottom:16px;">
+      <b style="color:var(--jade);">100 SKU</b> · 2 khu vực · 9 nhóm · <span style="background:rgba(255,176,32,.15);color:var(--amber);font-family:var(--mono);font-size:9px;padding:1px 8px;border-radius:6px;font-weight:700;">⏱ 1 CA/NGÀY · Tăng ca theo đơn</span><br>
+      Người báo cáo: <b style="color:var(--jade);">Nguyễn Văn Hải — Giám Đốc Nhà Máy</b>
+    </div>
+
+    <!-- Score row -->
+    <div style="display:flex;align-items:center;gap:14px;padding-top:14px;border-top:1px solid var(--bd);">
+      <!-- Gauge -->
+      <div style="position:relative;width:68px;height:68px;flex-shrink:0;">
+        <svg viewBox="0 0 68 68" style="width:68px;height:68px;transform:rotate(-90deg);">
+          <circle cx="34" cy="34" r="26" fill="none" stroke="rgba(22,54,40,.8)" stroke-width="8"/>
+          <!-- target ghost 83% -->
+          <circle cx="34" cy="34" r="26" fill="none" stroke="rgba(255,176,32,.2)" stroke-width="8"
+            stroke-dasharray="136 27" stroke-linecap="round"/>
+          <circle id="heroRing" cx="34" cy="34" r="26" fill="none" stroke="url(#hg)" stroke-width="8"
+            stroke-dasharray="0 163" stroke-linecap="round"
+            style="transition:stroke-dasharray 2s .3s cubic-bezier(.4,0,.2,1);
+            filter:drop-shadow(0 0 4px rgba(255,176,32,.6))"/>
+          <defs>
+            <linearGradient id="hg" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#ff2d55"/><stop offset="55%" stop-color="#ffb020"/>
+              <stop offset="100%" stop-color="#00e5a8"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div style="position:absolute;inset:0;display:flex;flex-direction:column;
+          align-items:center;justify-content:center;">
+          <div style="font-family:var(--head);font-size:17px;font-weight:800;
+            color:var(--amber);line-height:1;" id="gaugeNum">0%</div>
+          <div style="font-family:var(--mono);font-size:6px;color:var(--t3);">OEE</div>
+        </div>
+      </div>
+      <div style="flex:1;">
+        <div style="display:flex;justify-content:space-between;margin-bottom:4px;">
+          <span style="font-family:var(--mono);font-size:7.5px;color:var(--t3);letter-spacing:.1em;">OEE TOÀN NHÀ MÁY</span>
+          <span style="font-family:var(--mono);font-size:8px;color:var(--red);font-weight:700;">−5pt vs target</span>
+        </div>
+        <div style="position:relative;height:5px;background:rgba(22,54,40,.8);border-radius:3px;margin-bottom:8px;overflow:visible;">
+          <div id="scoreBar" style="height:100%;width:0%;background:linear-gradient(90deg,#ff2d55,#ffb020 60%,#00e5a8);
+            border-radius:3px;transition:width 2.2s .4s ease;"></div>
+          <div style="position:absolute;top:-3px;bottom:-3px;left:83%;width:2px;background:rgba(0,229,168,.9);"></div>
+          <div style="position:absolute;top:9px;left:calc(83% - 10px);font-family:var(--mono);font-size:6px;color:var(--jade);white-space:nowrap;">target 83%</div>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <span style="font-family:var(--mono);font-size:8px;">
+            <span style="color:var(--jade);">●</span>
+            <span style="color:var(--jade2);font-weight:700;"> 90%</span>
+            <span style="color:var(--t3);"> GV xốt ★</span>
+          </span>
+          <span style="font-family:var(--mono);font-size:8px;">
+            <span style="color:var(--red);">●</span>
+            <span style="color:var(--red);font-weight:700;"> 59%</span>
+            <span style="color:var(--t3);"> GV lọ ↓</span>
+          </span>
+          <span style="font-family:var(--mono);font-size:8px;">
+            <span style="color:var(--amber);">●</span>
+            <span style="color:var(--amber);font-weight:700;"> 74%</span>
+            <span style="color:var(--t3);"> Lon 240 ↓</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ KPI COMMAND CENTER ══ -->
+<div id="kpiCommandCenter" style="margin-bottom:20px;"></div>
+
+<!-- OEE BULLET CHART -->
+<div class="sec"><div class="sec-lbl">OEE Q1</div><div class="sec-line"></div><div class="sec-lbl" style="color:var(--amber)">12 nhóm · Target 83%</div></div>
+<div class="card">
+  <div class="card-hdr"><div class="card-title">Hiệu Suất OEE Từng Nhóm Sản Phẩm</div><div class="badge a">Q1 · 2026</div></div>
+  <div class="card-body" style="padding:8px 14px 12px;" id="oeeChart"></div>
+</div>
+
+
+<!-- MANHOUR -->
+<div class="sec"><div class="sec-lbl">Manhour</div><div class="sec-line"></div><div class="sec-lbl" style="color:var(--red)">6/8 vượt target</div></div>
+<div class="xcard">
+  <div class="xcard-hdr">
+    <div><div class="xcard-title">Manhour Thực Tế vs Target</div><div class="xcard-sub">Giờ / 1000 sản phẩm</div></div>
+    <div class="xbadge xbadge-dn">+18% TB</div>
+  </div>
+  <div id="manhourChart"></div>
+</div>
+
+<!-- HAO HUT -->
+<div class="sec"><div class="sec-lbl">Hao Hụt Q1</div><div class="sec-line"></div><div class="sec-lbl" style="color:var(--amber)">Bao Bì & Nguyên Liệu</div></div>
+
+<div class="alert-box">
+  <span class="alert-close" onclick="this.parentElement.remove()">✕</span>
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+    <div style="font-family:var(--mono);font-size:8px;color:var(--amber);letter-spacing:.1em;
+      background:rgba(255,176,32,.15);padding:2px 8px;border-radius:3px;">⚠ VƯỢT TARGET</div>
+    <div style="font-size:13px;font-weight:700;color:var(--amber);">Nắp 160ml 1.35% · Gia vị cháo 0.30%</div>
+  </div>
+  <div style="font-size:11px;color:var(--t2);">Line vặn nắp chưa hoàn thiện · Nhà thầu đang tìm phương án · Action Q2</div>
+</div>
+
+<div class="card" style="margin-bottom:12px;">
+  <div class="card-hdr"><div class="card-title">Hao Hụt Bao Bì — Vs Target</div><div class="badge r">2 vượt</div></div>
+  <div class="card-body" style="padding:8px 14px 10px;" id="lossBaobi"></div>
+</div>
+
+<!-- Emotional heatmap for NL losses -->
+<div class="xcard" style="margin-bottom:12px;">
+  <div class="xcard-hdr">
+    <div><div class="xcard-title">Hao Hụt Nguyên Liệu</div><div class="xcard-sub">So sánh thực tế vs target · Q1</div></div>
+    <div class="xbadge xbadge-up">✓ Phần lớn đạt</div>
+  </div>
+  <!-- Gauge rings row -->
+  <div id="lossNLGauges" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px;"></div>
+  <!-- Heatmap table for all NL -->
+  <div id="lossNLHeat" style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;"></div>
+</div>
+
+<div class="xcard" style="margin-bottom:12px;">
+  <div class="xcard-hdr">
+    <div><div class="xcard-title">Hao Hụt Thành Phẩm</div><div class="xcard-sub">Âm = SX thừa · Dương = thiếu hụt · Cần đối soát kho</div></div>
+    <div class="xbadge xbadge-am">Kiểm tra</div>
+  </div>
+  <div id="lossTP"></div>
+</div>
+
+
+
+
+<!-- ══ CHI TIẾT: KHIẾU NẠI KHÁCH HÀNG ══ -->
+<div class="sec" style="margin-top:20px;"><div class="sec-lbl">Khiếu Nại Khách Hàng</div><div class="sec-line"></div><div class="sec-lbl" style="color:var(--violet)">Q1 · 5 phản ánh</div></div>
+
+<div class="alert-box" style="border-left-color:var(--red);background:rgba(255,45,85,.07);border-color:rgba(255,45,85,.2);">
+  <span class="alert-close" onclick="this.parentElement.remove()">✕</span>
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+    <div style="font-family:var(--mono);font-size:8px;color:var(--red);letter-spacing:.12em;background:rgba(255,45,85,.15);padding:2px 8px;border-radius:3px;">🐛 LẶP LẠI 2 LẦN</div>
+    <div style="font-size:13px;font-weight:700;color:var(--red);">Côn trùng trong Yến — T2/2026</div>
+  </div>
+  <div style="font-size:11px;color:var(--t2);">27/02 Yến ĐTGC · 28/02 Yến ĐT 160ml — Côn trùng bay vào lúc chiết rót. Lọ thủy tinh khó kiểm soát khi rework.</div>
+</div>
+
+<div class="xcard" style="padding:0 0 2px;margin-bottom:12px;">
+  <div style="padding:12px 16px 10px;">
+    <div class="xcard-title">Chi Tiết Phản Ánh Khách Hàng Q1</div>
+    <div class="xcard-sub">5 trường hợp · Nguồn: Báo cáo QA/QC Q1/2026</div>
+  </div>
+  <div class="wkt-head">
+    <div class="wkt-c wkt-day">Ngày</div>
+    <div class="wkt-c">Sản Phẩm</div>
+    <div class="wkt-c">Vấn Đề</div>
+    <div class="wkt-c">Kết Quả</div>
+    <div class="wkt-c">Mức Độ</div>
+  </div>
+  <div class="wkt-row"><div class="wkt-c wkt-day">08/01</div><div class="wkt-c wkt-a">Hộp Gia Vị</div><div class="wkt-c">Sụp lót hộp</div><div class="wkt-c wkt-a">Thiết kế lót chưa đủ cứng</div><div class="wkt-c wkt-a">🟡 TB</div></div>
+  <div class="wkt-row"><div class="wkt-c wkt-day">17/01</div><div class="wkt-c wkt-g">Yến lọ 70ml</div><div class="wkt-c">Thiếu túi xách</div><div class="wkt-c wkt-g">Đã gửi bù cho KH</div><div class="wkt-c wkt-g">🟢 Nhẹ</div></div>
+  <div class="wkt-row"><div class="wkt-c wkt-day">27/02</div><div class="wkt-c wkt-r">Yến ĐTGC</div><div class="wkt-c wkt-r">🐛 Côn trùng</div><div class="wkt-c wkt-r">Lọ thủy tinh khó KS</div><div class="wkt-c wkt-r">🔴 Nặng</div></div>
+  <div class="wkt-row"><div class="wkt-c wkt-day">28/02</div><div class="wkt-c wkt-r">Yến ĐT 160ml</div><div class="wkt-c wkt-r">🐛 Côn trùng + tạp chất</div><div class="wkt-c wkt-r">Bay vào khi chiết rót</div><div class="wkt-c wkt-r">🔴 Nặng</div></div>
+  <div class="wkt-row"><div class="wkt-c wkt-day">03/03</div><div class="wkt-c wkt-a">Yến GC Bnest</div><div class="wkt-c wkt-a">Sản phẩm bị chua</div><div class="wkt-c wkt-g">Mẫu lưu không bị chua</div><div class="wkt-c wkt-a">🟡 Theo dõi</div></div>
+</div>
+
+<!-- ══ CHI TIẾT: SỰ CỐ TẠI NHÀ MÁY ══ -->
+<div class="sec" style="margin-top:8px;"><div class="sec-lbl">Sự Cố Tại Nhà Máy</div><div class="sec-line"></div><div class="sec-lbl" style="color:var(--red)">Q1 · 6 sự cố · 2 nghiêm trọng</div></div>
+
+<div class="alert-box" style="border-left-color:var(--red);background:rgba(255,45,85,.07);border-color:rgba(255,45,85,.2);">
+  <span class="alert-close" onclick="this.parentElement.remove()">✕</span>
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
+    <div style="font-family:var(--mono);font-size:8px;color:var(--red);letter-spacing:.12em;background:rgba(255,45,85,.15);padding:2px 8px;border-radius:3px;">🚨 ĐANG HOLD</div>
+    <div style="font-size:13px;font-weight:700;color:var(--red);">Sự cố #5 — Trộn nhầm Tribasic Phosphate vào Ngũ Cốc Ăn Kiêng</div>
+  </div>
+  <div style="font-size:11px;color:var(--t2);">19/03/2026 · Lô hàng đang HOLD — Chờ quyết định BGĐ. Tribasic Phosphate không thuộc công thức sản phẩm.</div>
+</div>
+
+<div class="xcard" style="padding:0 0 2px;margin-bottom:12px;">
+  <div style="padding:12px 16px 10px;">
+    <div class="xcard-title">Chi Tiết Sự Cố Chất Lượng Q1</div>
+    <div class="xcard-sub">6 sự cố · Nguồn: Báo cáo QA/QC Q1/2026</div>
+  </div>
+  <div class="wkt-head">
+    <div class="wkt-c wkt-day">Ngày</div>
+    <div class="wkt-c">Sản Phẩm</div>
+    <div class="wkt-c">Vấn Đề</div>
+    <div class="wkt-c">Xử Lý</div>
+    <div class="wkt-c">Trạng Thái</div>
+  </div>
+  <div class="wkt-row"><div class="wkt-c wkt-day">26/01</div><div class="wkt-c wkt-a">Ngũ Cốc 5 Đậu</div><div class="wkt-c">Thiếu premix — 19 thùng TP</div><div class="wkt-c wkt-g">BGĐ duyệt xuất</div><div class="wkt-c wkt-g">✓ Xong</div></div>
+  <div class="wkt-row"><div class="wkt-c wkt-day">28/01</div><div class="wkt-c wkt-g">Sữa Đậu Đỏ</div><div class="wkt-c">Bơm dư nước 1 mẻ</div><div class="wkt-c wkt-g">Chia đều cho 2 mẻ</div><div class="wkt-c wkt-g">✓ Xong</div></div>
+  <div class="wkt-row"><div class="wkt-c wkt-day">04/02</div><div class="wkt-c wkt-g">Sữa 9 Hạt</div><div class="wkt-c">Trộn dư 1 túi premix</div><div class="wkt-c wkt-g">Đã xử lý</div><div class="wkt-c wkt-g">✓ Xong</div></div>
+  <div class="wkt-row"><div class="wkt-c wkt-day">03/03</div><div class="wkt-c wkt-a">Sữa Bắp</div><div class="wkt-c">Mẻ 3 bị tủa</div><div class="wkt-c wkt-a">Rework 600 lon</div><div class="wkt-c wkt-g">✓ Xong</div></div>
+  <div class="wkt-row" style="background:rgba(255,45,85,.06);"><div class="wkt-c wkt-day">19/03</div><div class="wkt-c wkt-r">Ngũ Cốc Ăn Kiêng</div><div class="wkt-c wkt-r">🚨 Nhầm Tribasic Phosphate</div><div class="wkt-c wkt-r">Đang HOLD</div><div class="wkt-c wkt-r">⏳ Chờ BGĐ</div></div>
+  <div class="wkt-row" style="background:rgba(255,45,85,.04);"><div class="wkt-c wkt-day">26/03</div><div class="wkt-c wkt-r">Sữa Gạo Rang / 9 Hạt</div><div class="wkt-c wkt-r">⚠ Nhiễm chéo 28 phút</div><div class="wkt-c wkt-a">Rework một phần</div><div class="wkt-c wkt-a">🟡 Theo dõi</div></div>
+</div>
+
+<div class="insight r" style="margin-top:4px;"><div class="ins-tag">🚨 Cần Quyết Định Ngay</div>
+  <div class="ins-txt">Sự cố #5: Ngũ Cốc Ăn Kiêng trộn nhầm Tribasic Phosphate — lô đang HOLD, BGĐ cần phê duyệt phương án xử lý</div>
+  <div class="ins-detail">Sự cố #6: Nhiễm chéo Sữa Gạo Rang/9 Hạt do lộn xộn khu vực BTP — cần tăng cường 5S và quy trình tách biệt dây chuyền.</div>
+</div>
+
+</div><!-- /v-q1 -->
+
+<!-- ════════════════════════════════════
+     VIEW: WORKFLOWS (Defects deep-dive)
+════════════════════════════════════ -->
+<div class="view" id="v-defects">
+
+<!-- ════════════════════════════════════════════════
+     HERO — "Chất lượng là mệnh lệnh"
+════════════════════════════════════════════════ -->
+<div style="position:relative;overflow:hidden;border-radius:22px;
+  padding:30px 20px 26px;margin-bottom:20px;
+  background:linear-gradient(160deg,#061812 0%,#07162a 45%,#09080e 100%);
+  border:1px solid rgba(0,229,168,.16);">
+
+  <!-- animated gradient top bar -->
+  <div style="position:absolute;top:0;left:0;right:0;height:2px;
+    background:linear-gradient(90deg,transparent 0%,#00e5a8 25%,#00d4ff 55%,#a855f7 80%,transparent 100%);
+    animation:shimmer 4s ease-in-out infinite alternate;"></div>
+
+  <!-- ambient orbs -->
+  <div style="position:absolute;top:-90px;right:-60px;width:300px;height:300px;
+    background:radial-gradient(circle,rgba(0,229,168,.07) 0%,transparent 60%);pointer-events:none;"></div>
+  <div style="position:absolute;bottom:-50px;left:-40px;width:220px;height:220px;
+    background:radial-gradient(circle,rgba(168,85,247,.05) 0%,transparent 60%);pointer-events:none;"></div>
+  <div style="position:absolute;top:40%;right:10%;width:120px;height:120px;
+    background:radial-gradient(circle,rgba(0,212,255,.04) 0%,transparent 60%);pointer-events:none;"></div>
+
+  <!-- eyebrow label -->
+  <div style="display:flex;align-items:center;gap:9px;margin-bottom:20px;">
+    <span style="width:6px;height:6px;border-radius:50%;background:var(--jade);
+      box-shadow:0 0 12px var(--jade);flex-shrink:0;animation:blink .9s step-start infinite;"></span>
+    <span style="font-family:var(--mono);font-size:7.5px;color:var(--jade);
+      letter-spacing:.32em;text-transform:uppercase;">LIFES FOOD · NHÀ MÁY TÂY NINH · CORE VALUES 2026</span>
+    <span style="flex:1;height:1px;background:linear-gradient(90deg,rgba(0,229,168,.35),transparent);"></span>
+  </div>
+
+  <!-- sub-headline: reporter -->
+  <div style="font-family:var(--mono);font-size:9px;color:var(--t2);
+    letter-spacing:.1em;margin-bottom:10px;">
+    Nguyễn Văn Hải
+    <span style="color:var(--t3);margin:0 6px;">·</span>
+    <span style="color:var(--jade);font-weight:600;">Giám Đốc Nhà Máy</span>
+  </div>
+
+  <!-- HERO HEADLINE — split into 3 lines for maximum impact -->
+  <div style="margin-bottom:20px;">
+    <div style="font-family:var(--head);font-weight:300;font-size:clamp(13px,3.5vw,17px);
+      color:rgba(255,255,255,.5);letter-spacing:.04em;margin-bottom:2px;">Chất lượng</div>
+    <div style="font-family:var(--head);font-weight:800;
+      font-size:clamp(32px,9vw,52px);line-height:.95;letter-spacing:-.04em;
+      background:linear-gradient(135deg,#00ffbb 0%,#00e5a8 40%,#00d4ff 75%);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      filter:drop-shadow(0 0 24px rgba(0,229,168,.3));margin-bottom:2px;">
+      là mệnh lệnh
+    </div>
+    <div style="font-family:var(--head);font-weight:700;
+      font-size:clamp(18px,5vw,28px);letter-spacing:-.01em;
+      color:rgba(255,255,255,.7);line-height:1;">
+      ở nhà máy
+      <span style="color:var(--jade2);font-size:.9em;font-weight:800;">Lifes Food</span>
+    </div>
+  </div>
+
+  <!-- tagline with left border accent -->
+  <div style="border-left:3px solid rgba(0,229,168,.5);padding-left:16px;
+    margin-bottom:24px;max-width:380px;">
+    <div style="font-family:var(--sans);font-size:13px;color:var(--t2);
+      font-weight:300;line-height:1.75;">
+      Mỗi lon yến, mỗi gói cháo, mỗi túi gia vị rời khỏi Tây Ninh
+      là một <span style="color:var(--text);font-weight:600;">cam kết không thương lượng</span> —
+    </div>
+    <div style="font-family:var(--mono);font-size:9px;color:var(--jade);
+      letter-spacing:.06em;margin-top:6px;">An toàn · Dinh dưỡng · Đúng hẹn</div>
+  </div>
+
+</div>
+
+<!-- ════ CORE VALUE CARDS ════ -->
+<div class="sec"><div class="sec-lbl">Giá Trị Cốt Lõi</div><div class="sec-line"></div></div>
+<div id="coreValCards" style="display:flex;flex-direction:column;gap:12px;margin-bottom:18px;"></div>
+
+<!-- ════ FLAGSHIP PRODUCTS ════ -->
+<div class="sec"><div class="sec-lbl">Sản Phẩm Chủ Lực</div><div class="sec-line"></div><div class="sec-lbl" style="color:var(--jade)">4 flagship</div></div>
+<div id="flagshipGrid" style="display:flex;flex-direction:column;gap:10px;margin-bottom:18px;"></div>
+
+<!-- ════ PRODUCTION FLOW ════ -->
+<div class="sec"><div class="sec-lbl">Dòng Chảy Sản Xuất</div><div class="sec-line"></div><div class="sec-lbl" style="color:var(--jade)">2 nhánh</div></div>
+<div class="xcard" style="margin-bottom:12px;">
+  <div class="xcard-hdr">
+    <div><div class="xcard-title">Nhánh 1 — Nấu & Chiết Rót</div><div class="xcard-sub">Yến · Cháo tươi · Gia vị lỏng · Sữa hạt</div></div>
+    <div class="xbadge xbadge-up">Line 1·2·4</div>
+  </div>
+  <div id="flow1" style="overflow-x:auto;padding-bottom:4px;"></div>
+</div>
+<div class="xcard" style="margin-bottom:12px;">
+  <div class="xcard-hdr">
+    <div><div class="xcard-title">Nhánh 2 — Rang & Đóng Gói Khô</div><div class="xcard-sub">Ngũ cốc · Cháo gói · Gia vị khô</div></div>
+    <div class="xbadge xbadge-up">Line 3</div>
+  </div>
+  <div id="flow2" style="overflow-x:auto;padding-bottom:4px;"></div>
+</div>
+
+<!-- ════ MARKET POSITIONING ════ -->
+<div class="sec"><div class="sec-lbl">Định Vị Thị Trường</div><div class="sec-line"></div><div class="sec-lbl" style="color:var(--jade)">Q1 · 13.9M sp</div></div>
+<div class="xcard" style="margin-bottom:12px;">
+  <div class="xcard-hdr">
+    <div><div class="xcard-title">Cơ Cấu Sản Lượng Theo Nhóm</div><div class="xcard-sub">Tỷ lệ % · Q1 · 100 SKU · 1 ca/ngày</div></div>
+    <div class="xbadge xbadge-up">9 nhóm</div>
+  </div>
+  <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding:4px 0 6px;">
+    <svg id="wfDonutSvg" viewBox="0 0 180 180" style="width:clamp(130px,38vw,180px);flex-shrink:0;overflow:visible;"></svg>
+    <div id="wfDonutLegend" style="flex:1;min-width:130px;"></div>
+  </div>
+</div>
+<div class="xcard" style="margin-bottom:12px;">
+  <div class="xcard-hdr">
+    <div><div class="xcard-title">Xu Hướng Sản Lượng T1→T2→T3</div><div class="xcard-sub">Tăng trưởng đều · 3 nhóm chính</div></div>
+    <div class="xbadge xbadge-up">↑ Tăng đều</div>
+  </div>
+  <svg id="wfTrendSvg" viewBox="0 0 320 130" style="width:100%;display:block;overflow:visible;"></svg>
+  <div style="display:flex;justify-content:space-around;padding:2px 14px 0;font-family:var(--mono);font-size:8px;color:var(--t3);">
+    <span>Tháng 1</span><span style="color:var(--jade)">Tháng 2</span><span>Tháng 3</span>
+  </div>
+  <div style="display:flex;gap:14px;margin-top:8px;padding-top:8px;border-top:1px solid var(--bd);flex-wrap:wrap;">
+    <span style="display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:8px;color:var(--t2);"><span style="width:10px;height:2px;background:var(--jade);display:inline-block;border-radius:1px;"></span>Yến</span>
+    <span style="display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:8px;color:var(--t2);"><span style="width:10px;height:2px;background:var(--cyan);display:inline-block;border-radius:1px;"></span>Cháo</span>
+    <span style="display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:8px;color:var(--t2);"><span style="width:10px;height:2px;background:var(--amber);display:inline-block;border-radius:1px;"></span>Ngũ cốc & GV</span>
+  </div>
+</div>
+<div class="xcard" style="margin-bottom:12px;">
+  <div class="xcard-hdr">
+    <div><div class="xcard-title">📐 Ma Trận BCG</div><div class="xcard-sub">Định hướng R&D danh mục Q2–Q3</div></div>
+    <div class="xbadge xbadge-am">Chiến lược</div>
+  </div>
+  <svg id="bcgMatrix" viewBox="0 0 320 260" style="width:100%;display:block;overflow:visible;"></svg>
+</div>
+
+<!-- ════ TEAM ════ -->
+<div class="sec" style="margin-top:4px;"><div class="sec-lbl">Đội Ngũ</div><div class="sec-line"></div><div class="sec-lbl" style="color:var(--jade)">5 bộ phận</div></div>
+<div class="xcard">
+  <div class="xcard-hdr">
+    <div><div class="xcard-title">Cơ Cấu Tổ Chức Nhà Máy</div><div class="xcard-sub">Lifes Food · Tây Ninh · Q1/2026</div></div>
+    <div class="xbadge xbadge-up">Nguyễn Văn Hải</div>
+  </div>
+  <div id="orgChart" style="overflow-x:auto;padding:4px 0 8px;"></div>
+</div>
+
+</div>
+
+
+<div class="view" id="v-action">
+<div class="act-wrap">
+
+<!-- ══ HERO ══ -->
+<div class="act-hero">
+  <div>
+    <div class="act-eyebrow">
+      <span class="act-pulse"></span>GIAO VIỆC · THEO DÕI · LIFES FOOD
+    </div>
+    <h1 class="act-h1">Action <span class="act-h1-em">Plan</span></h1>
+    <div class="act-hero-sub">Tạo · giao · hoàn thành — tất cả trong một trang</div>
+  </div>
+  <div class="act-hero-right">
+    <div class="act-stats" id="act-summary">
+      <div class="act-stat"><div class="act-stat-n" id="as-total">0</div><div class="act-stat-l">Tasks</div></div>
+      <div class="act-stat-div"></div>
+      <div class="act-stat"><div class="act-stat-n act-stat-done" id="as-done">0</div><div class="act-stat-l">Xong</div></div>
+      <div class="act-stat-div"></div>
+      <div class="act-stat"><div class="act-stat-n act-stat-late" id="as-late">0</div><div class="act-stat-l">Trễ</div></div>
+    </div>
+    <!-- Progress bar -->
+    <div style="width:100%;margin-top:10px;">
+      <div style="display:flex;justify-content:space-between;font-family:var(--mono);font-size:8px;color:var(--t3);margin-bottom:4px;">
+        <span>Tiến độ tổng</span><span id="as-pct">0%</span>
+      </div>
+      <div style="height:4px;background:var(--bd);border-radius:2px;overflow:hidden;">
+        <div id="as-bar" style="height:100%;width:0%;background:linear-gradient(90deg,var(--jade),var(--cyan));border-radius:2px;transition:width .9s ease;box-shadow:0 0 8px rgba(0,229,168,.5);"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TOOLBAR ══ -->
+<div class="act-toolbar">
+  <!-- Filters left -->
+  <div class="act-filters">
+    <div class="act-seg">
+      <button class="act-f act-f-on" data-f="all"  onclick="actFilter('all',this)">Tất cả</button>
+      <button class="act-f" data-f="todo" onclick="actFilter('todo',this)">Đang làm</button>
+      <button class="act-f" data-f="done" onclick="actFilter('done',this)">Xong</button>
+      <button class="act-f" data-f="hold" onclick="actFilter('hold',this)">Hold</button>
+    </div>
+    <div class="act-seg">
+      <button class="act-p act-p-on" data-p="" onclick="actPriFilter('',this)">All</button>
+      <button class="act-p act-p-red" data-p="high" onclick="actPriFilter('high',this)">Gấp</button>
+      <button class="act-p act-p-amb" data-p="mid"  onclick="actPriFilter('mid',this)">TB</button>
+      <button class="act-p act-p-grn" data-p="low"  onclick="actPriFilter('low',this)">Thấp</button>
+    </div>
+    <input id="act-srch" class="act-search" placeholder="Tìm task..." oninput="actRender()">
+  </div>
+  <!-- Add button right -->
+  <button class="act-add-btn" onclick="actOpenForm()">
+    <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M6.5 1v11M1 6.5h11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    Thêm Task
+  </button>
+</div>
+
+<!-- ══ ADD / EDIT FORM ══ -->
+<div id="act-form" class="act-form-wrap" style="display:none;">
+  <div class="act-form-inner">
+    <div class="act-form-head">
+      <div class="act-form-title" id="act-form-title">Tạo Task Mới</div>
+      <button onclick="actCloseForm()" class="act-form-close">✕</button>
+    </div>
+
+    <!-- Task name -->
+    <div class="act-field">
+      <label class="act-lbl">Tên công việc *</label>
+      <input id="af-txt" class="act-inp" placeholder="Mô tả rõ việc cần làm...">
+    </div>
+
+    <!-- Row 2: owner / priority / deadline -->
+    <div class="act-field-row">
+      <div class="act-field">
+        <label class="act-lbl">Người thực hiện</label>
+        <select id="af-own" class="act-inp act-sel">
+          <option value="">— Chưa giao</option>
+          <option>CEO</option>
+          <option>GĐ Nhà máy</option>
+          <option>Mr. Hòa — SX</option>
+          <option>Mr. Huyền — CL</option>
+          <option>Mr. Phụng — KV</option>
+          <option>Ms. Hằng — BB</option>
+          <option>BP Bảo trì</option>
+        </select>
+      </div>
+      <div class="act-field">
+        <label class="act-lbl">Ưu tiên</label>
+        <select id="af-pri" class="act-inp act-sel">
+          <option value="high">🔴 Gấp</option>
+          <option value="mid" selected>🟡 Trung bình</option>
+          <option value="low">🟢 Thấp</option>
+        </select>
+      </div>
+      <div class="act-field">
+        <label class="act-lbl">Deadline</label>
+        <input id="af-due" type="date" class="act-inp act-inp-date">
+      </div>
+    </div>
+
+    <!-- Note -->
+    <div class="act-field">
+      <label class="act-lbl">Ghi chú</label>
+      <textarea id="af-note" class="act-inp act-textarea" rows="2" placeholder="Bối cảnh, tài liệu tham khảo..."></textarea>
+    </div>
+
+    <div class="act-form-footer">
+      <button onclick="actCloseForm()" class="act-btn-cxl">Hủy</button>
+      <button onclick="actSave()" class="act-btn-save">Lưu Task</button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TASK LIST ══ -->
+<div id="act-list"></div>
+<div id="act-empty" style="display:none;" class="act-empty">
+  <div style="font-size:40px;margin-bottom:12px;opacity:.25;">📋</div>
+  <div style="font-family:var(--head);font-size:18px;color:var(--t2);margin-bottom:6px;">Chưa có task nào</div>
+  <div style="font-family:var(--mono);font-size:11px;color:var(--t3);">Nhấn <b style="color:var(--jade);">+ Thêm Task</b> để bắt đầu giao việc</div>
+</div>
+
+</div>
+</div>
+
+<!-- ════════════════════════════════════
+     VIEW: CHI TIẾT Q1 — BÁO CÁO TEXT
+════════════════════════════════════ -->
+<div class="view" id="v-detail">
+<div id="detail-content" style="padding-bottom:48px;max-width:780px;margin:0 auto;"></div>
+</div>
+
+<nav class="bnav" id="bnav">
+  <div class="ni active" data-nav="q1" onclick="sw('q1')"><div class="ni-icon">📊</div><div class="ni-lbl">Q1</div></div>
+  <div class="ni" data-nav="defects" onclick="sw('defects')"><div class="ni-icon">🌿</div><div class="ni-lbl">Values</div></div>
+  <div class="ni act-ni" data-nav="action" onclick="sw('action')"><div class="ni-icon">⚡</div><div class="ni-lbl">Action</div></div>
+  <div class="ni" data-nav="detail" onclick="sw('detail')"><div class="ni-icon">📋</div><div class="ni-lbl">Chi Tiết</div></div>
+</nav>
+
+<div class="toast-wrap" id="toasts"></div>
+
+<script>
+// ════════════════════════════════════════════════════════
+//  CORE DATA
+// ════════════════════════════════════════════════════════
+const OEE_DATA = [
+  {n:'Gia vị (xốt) ★', v:90, t:83},
+  {n:'ĐT / 150ml',      v:82, t:83},
+  {n:'GVHC Gia vị',     v:80, t:83},
+  {n:'Ngũ cốc/bột đậu', v:79, t:83},
+  {n:'Lọ 70ml',         v:79, t:83},
+  {n:'Tam vị cty',      v:78, t:83},
+  {n:'Cháo gói/xốt',    v:77, t:83},
+  {n:'Cháo tươi',       v:77, t:83},
+  {n:'Lon 190ml',       v:77, t:83},
+  {n:'Gia vị (lẩu)',    v:76, t:83},
+  {n:'Lon 240ml',       v:74, t:83},
+  {n:'Gia vị (lọ) ⚠',  v:59, t:83},
+];
+const VOL_DATA = [
+  {l:'GVHC Gia vị', v:5693958, c:'#00e5a8', d:'gói'},
+  {l:'Lon 190ml',   v:2193579, c:'#00d4ff', d:'lon'},
+  {l:'Lọ 70ml',    v:1977734, c:'#4d9eff', d:'lọ'},
+  {l:'Lon 240ml',  v:1956616, c:'#ffb020', d:'lon'},
+  {l:'Cháo gói',   v:910953,  c:'#a855f7', d:'gói'},
+  {l:'Cháo xốt',   v:602936,  c:'#ff6b7a', d:'gói'},
+  {l:'Lọ 160ml',  v:138872,  c:'#00b8a0', d:'lọ'},
+  {l:'Lọ 100ml',  v:58682,   c:'#7eb8f0', d:'lọ'},
+  {l:'Cháo tươi',  v:40649,   c:'#ffd166', d:'gói'},
+];
+const MH_DATA = [
+  {n:'Nấu xốt',      a:33.51, t:25.00},
+  {n:'Gia vị lẩu',   a:12.19, t:11.00},
+  {n:'Tam vị 100ml', a:11.48, t:9.00},
+  {n:'Cháo ly',      a:10.16, t:8.50},
+  {n:'Gia vị lọ',    a:9.35,  t:7.83},
+  {n:'Lọ 160ml',    a:5.49,  t:4.00},
+  {n:'Lon 190ml',    a:1.56,  t:1.55},
+  {n:'Gia vị xốt',  a:4.71,  t:6.09},
+];
+const BAOBI_DATA = [
+  {n:'Nắp 160ml ⚠',  a:1.35, t:null, over:true},
+  {n:'Nắp 100ml',    a:0.72, t:null, over:false},
+  {n:'Lon 190ml nắp',a:0.76, t:null, over:false},
+  {n:'Nắp lon',      a:0.68, t:null, over:false},
+  {n:'Lon 240ml nắp',a:0.51, t:null, over:false},
+  {n:'Nắp 70ml',     a:0.58, t:null, over:false},
+  {n:'Màng cháo gói',a:1.87, t:2.25, over:false},
+  {n:'Màng ngũ cốc', a:0.86, t:1.50, over:false},
+  {n:'GV cháo ⚠',   a:0.30, t:0.20, over:true},
+];
+const NL_DATA = [
+  {n:'Gạo cháo', a:0.37, t:0.40, ok:true},
+  {n:'Vảy NC',   a:0.15, t:0.25, ok:true},
+  {n:'Bột NC',   a:0.14, t:0.25, ok:true},
+  {n:'Đ.phèn',   a:0.48, t:null, ok:true},
+  {n:'Đ.cát',    a:0.31, t:null, ok:true},
+  {n:'Creamer T', a:0.21, t:null, ok:true},
+  {n:'Creamer V', a:0.40, t:null, ok:true},
+  {n:'Đ.Fructose',a:0.40, t:null, ok:true},
+  {n:'Đ.kiêng',  a:0.49, t:null, ok:true},
+];
+const TP_DATA = [
+  {n:'Lọ 70ml',  v:-3.51},{n:'Gia vị',   v:-3.29},
+  {n:'Lọ 160ml',v:-2.59},{n:'Lon 190ml',v:-0.39},
+  {n:'Cháo tươi',v:-0.37},{n:'Lon 240ml',v:0.87},
+  {n:'Lọ 100ml', v:2.92},
+];
+const PLANNED = [
+  {dot:'jade', title:'Thu Hồi Flash Steam — Giảm 10% Nhiên Liệu',
+   desc:'Flash steam từ lò hơi xả bỏ. Lắp hệ thu hồi nước ngưng. Thu hồi canxi lactate 40–50%.',
+   chip:'⚡ KAIZEN', dl:'Q2 2026', own:'Kỹ thuật + Utility'},
+  {dot:'amber', title:'Giảm 25% Điện — Tối Ưu Máy Lạnh & Ánh Sáng',
+   desc:'Tách đèn theo nhóm, set máy lạnh 27°C, filter G4, xử lý nước thải bật luân phiên on/off 1h.',
+   chip:'⚡ KAIZEN', dl:'Q2 2026', own:'Utility + Trưởng SX'},
+  {dot:'cyan', title:'Tăng Tốc Line Cháo Tươi — Thêm Trạm Cấp Liệu',
+   desc:'Thêm 1 trạm cấp gạo khô tăng tốc chiết từ 20→30+ gói/phút. Giảm 30% manhour.',
+   chip:'⚙ ĐẦU TƯ TB', dl:'Q2 2026', own:'Kỹ thuật + Cháo tươi'},
+  {dot:'violet', title:'Nâng Công Suất Line Phôi Cháo & Line Sữa',
+   desc:'Thêm 1 máy tạo phôi (−25% manhour). Đi đường ống cứng + bồn nhũ hóa line sữa.',
+   chip:'⚙ ĐẦU TƯ TB', dl:'Q2–Q3 2026', own:'Kỹ thuật + Cháo khô'},
+  {dot:'jade', title:'Hệ Thống Xử Lý Nước Thải & Pha Loãng',
+   desc:'Lắp hệ pha loãng nước thải muối/màu. Tái sử dụng nước ngưng lò hơi giảm 25% chi phí nước.',
+   chip:'🌿 UTILITY', dl:'Q2 2026', own:'Utility + Môi trường'},
+];
+const AI_SIGNALS = [
+  {dot:'red',   txt:'<b>OEE Pattern Q1:</b> Gia vị (xốt) đạt 90% — vượt target 7pt. Gia vị (lọ) 59% — thiếu mặt bằng + màng bao bì lỗi. Cần ưu tiên bố trí lại khu sản xuất Q2.'},
+  {dot:'jade',  txt:'<b>Hao hụt Q1:</b> Nắp 160ml 1.35% — cao nhất (line vặn nắp chưa hoàn thiện). Ngũ cốc đạt tốt: màng 0.86%&lt;1.5%, gạo cháo 0.37%&lt;0.4%.'},
+  {dot:'amber', txt:'<b>ROI Action Plan Q2:</b> Máy dán tem (226tr) + Lót xốp (152tr) + Giảm manhour nấu xốt → ước tiết kiệm ~410 triệu VND/năm nếu hoàn thành.'},
+];
+
+// ════════════════════════════════════════════════════════
+//  HELPERS
+// ════════════════════════════════════════════════════════
+const $ = id => document.getElementById(id);
+const fmtM = v => v>=1e6 ? (v/1e6).toFixed(2)+'M' : (v/1e3).toFixed(0)+'K';
+const fmtFull = v => v.toLocaleString('vi-VN');
+
+function countUp(el){
+  if(el.dataset.running) return;
+  el.dataset.running='1';
+  const target = parseInt(el.dataset.target);
+  const fmt = el.dataset.fmt;
+  const dur = 1800, start = performance.now();
+  function step(now){
+    const p = Math.min((now-start)/dur,1);
+    const ease = 1-Math.pow(1-p,3);
+    const val = Math.round(ease*target);
+    el.textContent = fmt==='M' ? (val/1e6).toFixed(2)+'M' : fmtFull(val);
+    if(p<1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+function animBars(root){
+  (root||document).querySelectorAll('[data-w]').forEach(el=>{
+    if(el.dataset.animated) return;
+    el.dataset.animated='1';
+    setTimeout(()=> el.style.width = el.dataset.w+'%', 60);
+  });
+}
+
+// Intersection Observer for lazy animate
+const revIO = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting) return;
+    e.target.querySelectorAll('.count-up').forEach(countUp);
+    animBars(e.target);
+    revIO.unobserve(e.target);
+  });
+},{threshold:.15});
+
+// ════════════════════════════════════════════════════════
+//  CLOCK
+// ════════════════════════════════════════════════════════
+function tick(){
+  const n=new Date(), p=v=>String(v).padStart(2,'0');
+  const clk=$('clk'), cld=$('cld');
+  if(clk) clk.textContent=p(n.getHours())+':'+p(n.getMinutes())+':'+p(n.getSeconds());
+  const days=['CN','T2','T3','T4','T5','T6','T7'];
+  if(cld) cld.textContent=days[n.getDay()]+' '+p(n.getDate())+'/'+p(n.getMonth()+1);
+}
+setInterval(tick,1000); tick();
+
+// ════════════════════════════════════════════════════════
+//  NAVIGATION
+// ════════════════════════════════════════════════════════
+let _cur = 'q1';
+function sw(id){
+  if(id===_cur) return;
+  _cur = id;
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  const vEl = $('v-'+id);
+  if(vEl){ vEl.classList.add('active'); revIO.observe(vEl); }
+  document.querySelectorAll('.tb,.ni,.pc-nav-item').forEach(el=>{
+    el.classList.toggle('active', el.dataset.view===id||el.dataset.nav===id);
+  });
+  if(id==='q1') buildQ1();
+  if(id==='defects') buildDefects();
+  if(id==='action') { buildAction(); actRender(); }
+  if(id==='defects') buildWorkflows();
+  if(id==='detail') buildProductStructure();
+  const pm=$('v-'+id+' .pc-main'); if(pm) pm.scrollTop=0;
+  const main=document.querySelector('.pc-main'); if(main) main.scrollTop=0;
+  window.scrollTo(0,0);
+}
+document.querySelectorAll('.tb').forEach(t=>t.addEventListener('click',()=>sw(t.dataset.view)));
+
+// ════════════════════════════════════════════════════════
+//  KPI COMMAND CENTER — cinematic hero
+// ════════════════════════════════════════════════════════
+function buildScorecard(){
+  const el=$('kpiCommandCenter'); if(!el) return;
+
+  el.innerHTML=`
+  <div id="kcc-wrap" style="
+    position:relative;overflow:hidden;border-radius:24px;
+    background:linear-gradient(145deg,#07201a 0%,#0a1a14 40%,#060e0c 100%);
+    border:1px solid rgba(0,229,168,.14);
+    box-shadow:0 0 0 1px rgba(0,229,168,.06), 0 24px 80px rgba(0,0,0,.6);
+    padding:0 0 2px;">
+
+    <!-- animated top border -->
+    <div style="position:absolute;top:0;left:0;right:0;height:2px;
+      background:linear-gradient(90deg,transparent 0%,#00e5a8 20%,#00d4ff 50%,#ff2d55 80%,transparent 100%);
+      animation:shimmer 3s ease-in-out infinite alternate;"></div>
+
+    <!-- ambient glow orbs -->
+    <div style="position:absolute;top:-60px;left:-40px;width:260px;height:260px;
+      background:radial-gradient(circle,rgba(0,229,168,.06) 0%,transparent 65%);pointer-events:none;"></div>
+    <div style="position:absolute;bottom:-40px;right:-30px;width:200px;height:200px;
+      background:radial-gradient(circle,rgba(255,45,85,.05) 0%,transparent 65%);pointer-events:none;"></div>
+
+    <!-- header row -->
+    <div style="display:flex;align-items:center;justify-content:space-between;
+      padding:16px 20px 14px;border-bottom:1px solid rgba(0,229,168,.08);">
+      <div style="display:flex;align-items:center;gap:9px;">
+        <span style="width:6px;height:6px;border-radius:50%;background:var(--jade);
+          box-shadow:0 0 10px var(--jade);flex-shrink:0;animation:blink .9s step-start infinite;"></span>
+        <span style="font-family:var(--mono);font-size:7.5px;color:var(--jade);
+          letter-spacing:.28em;text-transform:uppercase;font-weight:600;">KẾT QUẢ Q1/2026 · LIFES FOOD · TÂY NINH</span>
+      </div>
+      <span style="font-family:var(--mono);font-size:7px;color:var(--t3);letter-spacing:.1em;">NGUYỄN VĂN HẢI · GĐ NHÀ MÁY</span>
+    </div>
+
+    <!-- TOP ROW: 2 hero metrics -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;
+      background:rgba(0,229,168,.06);border-bottom:1px solid rgba(0,229,168,.08);">
+
+      <!-- OEE Hero -->
+      <div id="kcc-oee" style="position:relative;padding:22px 20px 18px;overflow:hidden;
+        background:linear-gradient(135deg,rgba(255,176,32,.06) 0%,transparent 60%);
+        cursor:default;transition:background .3s;"
+        onmouseenter="this.style.background='linear-gradient(135deg,rgba(255,176,32,.11) 0%,transparent 60%)'"
+        onmouseleave="this.style.background='linear-gradient(135deg,rgba(255,176,32,.06) 0%,transparent 60%)'">
+        <div style="position:absolute;top:14px;right:14px;
+          font-family:var(--mono);font-size:7px;font-weight:700;
+          color:var(--amber);background:rgba(255,176,32,.12);
+          border:1px solid rgba(255,176,32,.25);padding:2px 9px;border-radius:20px;
+          letter-spacing:.1em;">OEE TOÀN NHÀ MÁY</div>
+        <div style="font-family:var(--mono);font-size:7.5px;color:var(--t3);
+          letter-spacing:.15em;text-transform:uppercase;margin-bottom:10px;">Hiệu suất tổng thể</div>
+        <div style="display:flex;align-items:flex-end;gap:6px;margin-bottom:6px;">
+          <div style="font-family:'Syne',sans-serif;font-size:clamp(44px,12vw,64px);
+            font-weight:800;line-height:.9;color:var(--amber);
+            filter:drop-shadow(0 0 20px rgba(255,176,32,.5));"
+            id="kcc-oee-num">0</div>
+          <div style="font-family:var(--head);font-size:22px;font-weight:800;
+            color:rgba(255,176,32,.6);margin-bottom:8px;">%</div>
+        </div>
+        <!-- mini bar vs target -->
+        <div style="position:relative;height:5px;background:rgba(255,255,255,.06);
+          border-radius:3px;margin-bottom:8px;overflow:visible;">
+          <div id="kcc-oee-bar" style="height:100%;width:0;border-radius:3px;
+            background:linear-gradient(90deg,#ff2d55,#ffb020);
+            box-shadow:0 0 10px rgba(255,176,32,.5);
+            transition:width 1.8s .4s cubic-bezier(.34,1.2,.64,1);"></div>
+          <!-- target marker -->
+          <div style="position:absolute;top:-4px;bottom:-4px;left:83%;width:2px;
+            background:rgba(0,229,168,.8);border-radius:1px;"></div>
+          <div style="position:absolute;top:8px;left:calc(83% - 12px);
+            font-family:var(--mono);font-size:6px;color:var(--jade);white-space:nowrap;">▲ 83%</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
+          <span style="font-family:var(--mono);font-size:8px;color:var(--red);font-weight:700;">−5pt vs target</span>
+          <span style="font-family:var(--mono);font-size:7.5px;color:var(--t3);">·</span>
+          <span style="font-family:var(--mono);font-size:8px;color:var(--jade);">★ GV Xốt 90%</span>
+          <span style="font-family:var(--mono);font-size:7.5px;color:var(--t3);">·</span>
+          <span style="font-family:var(--mono);font-size:8px;color:var(--red);">↓ GV Lọ 59%</span>
+        </div>
+      </div>
+
+      <!-- Sản lượng Hero -->
+      <div style="position:relative;padding:22px 20px 18px;overflow:hidden;
+        background:linear-gradient(135deg,rgba(0,229,168,.06) 0%,transparent 60%);
+        cursor:default;transition:background .3s;"
+        onmouseenter="this.style.background='linear-gradient(135deg,rgba(0,229,168,.11) 0%,transparent 60%)'"
+        onmouseleave="this.style.background='linear-gradient(135deg,rgba(0,229,168,.06) 0%,transparent 60%)'">
+        <div style="position:absolute;top:14px;right:14px;
+          font-family:var(--mono);font-size:7px;font-weight:700;
+          color:var(--jade);background:rgba(0,229,168,.1);
+          border:1px solid rgba(0,229,168,.22);padding:2px 9px;border-radius:20px;
+          letter-spacing:.1em;">SẢN LƯỢNG Q1</div>
+        <div style="font-family:var(--mono);font-size:7.5px;color:var(--t3);
+          letter-spacing:.15em;text-transform:uppercase;margin-bottom:10px;">Tổng đơn vị xuất xưởng</div>
+        <div style="display:flex;align-items:flex-end;gap:4px;margin-bottom:6px;">
+          <div style="font-family:'Syne',sans-serif;font-size:clamp(44px,12vw,64px);
+            font-weight:800;line-height:.9;color:var(--jade2);
+            filter:drop-shadow(0 0 24px rgba(0,255,187,.4));"
+            id="kcc-vol-num">0</div>
+          <div style="font-family:var(--head);font-size:22px;font-weight:800;
+            color:rgba(0,229,168,.5);margin-bottom:8px;">M</div>
+        </div>
+        <div style="display:flex;gap:6px;margin-bottom:8px;flex-wrap:wrap;">
+          <span style="font-family:var(--mono);font-size:7.5px;font-weight:700;
+            color:var(--jade);background:rgba(0,229,168,.1);border:1px solid rgba(0,229,168,.2);
+            padding:2px 8px;border-radius:8px;">100 SKU</span>
+          <span style="font-family:var(--mono);font-size:7.5px;font-weight:700;
+            color:var(--cyan);background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.18);
+            padding:2px 8px;border-radius:8px;">9 nhóm</span>
+          <span style="font-family:var(--mono);font-size:7.5px;color:var(--t3);
+            background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);
+            padding:2px 8px;border-radius:8px;">1 ca/ngày</span>
+        </div>
+        <div style="font-family:var(--mono);font-size:8px;color:var(--t3);">Tăng ca theo đơn · 2 khu vực SX</div>
+      </div>
+    </div>
+
+    <!-- BOTTOM ROW: 4 stat cells -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+      background:rgba(0,229,168,.06);">
+
+      <!-- OEE Best -->
+      <div style="padding:14px 14px 12px;background:#07201a;
+        transition:background .2s;"
+        onmouseenter="this.style.background='rgba(0,229,168,.06)'"
+        onmouseleave="this.style.background='#07201a'">
+        <div style="font-family:var(--mono);font-size:6.5px;color:var(--t3);
+          letter-spacing:.15em;text-transform:uppercase;margin-bottom:8px;">OEE Tốt nhất</div>
+        <div style="font-family:var(--head);font-size:28px;font-weight:800;
+          color:var(--jade2);line-height:1;filter:drop-shadow(0 0 10px rgba(0,255,187,.3));">90<span style="font-size:14px;color:rgba(0,255,187,.5);">%</span></div>
+        <div style="font-family:var(--mono);font-size:7.5px;color:var(--jade);
+          margin-top:5px;font-weight:700;">GV Xốt ★</div>
+        <div style="font-family:var(--mono);font-size:7px;color:var(--t3);margin-top:2px;">+7pt vs target</div>
+      </div>
+
+      <!-- NVL Đạt -->
+      <div style="padding:14px 14px 12px;background:#07201a;
+        transition:background .2s;"
+        onmouseenter="this.style.background='rgba(0,229,168,.06)'"
+        onmouseleave="this.style.background='#07201a'">
+        <div style="font-family:var(--mono);font-size:6.5px;color:var(--t3);
+          letter-spacing:.15em;text-transform:uppercase;margin-bottom:8px;">NVL Đạt chuẩn</div>
+        <div style="font-family:var(--head);font-size:24px;font-weight:800;
+          color:var(--jade2);line-height:1;filter:drop-shadow(0 0 10px rgba(0,255,187,.25));">99.66<span style="font-size:12px;color:rgba(0,255,187,.5);">%</span></div>
+        <div style="font-family:var(--mono);font-size:7.5px;color:var(--jade);
+          margin-top:5px;font-weight:700;">1.743 lần đạt</div>
+        <div style="font-family:var(--mono);font-size:7px;color:var(--t3);margin-top:2px;">Nguyên vật liệu Q1</div>
+      </div>
+
+      <!-- Sự cố -->
+      <div style="padding:14px 14px 12px;
+        background:linear-gradient(135deg,rgba(255,45,85,.05) 0%,#07201a 60%);
+        border-left:2px solid rgba(255,45,85,.3);
+        transition:background .2s;"
+        onmouseenter="this.style.background='rgba(255,45,85,.08)'"
+        onmouseleave="this.style.background='linear-gradient(135deg,rgba(255,45,85,.05) 0%,#07201a 60%)'">
+        <div style="font-family:var(--mono);font-size:6.5px;color:var(--t3);
+          letter-spacing:.15em;text-transform:uppercase;margin-bottom:8px;">Sự Cố CL</div>
+        <div style="font-family:var(--head);font-size:36px;font-weight:800;
+          color:var(--red);line-height:1;filter:drop-shadow(0 0 12px rgba(255,45,85,.5));">6</div>
+        <div style="display:flex;align-items:center;gap:5px;margin-top:5px;">
+          <span style="font-family:var(--mono);font-size:7px;font-weight:700;
+            color:var(--red);background:rgba(255,45,85,.15);
+            padding:1px 6px;border-radius:4px;">2 nghiêm trọng</span>
+        </div>
+        <div style="font-family:var(--mono);font-size:7px;color:var(--red);
+          opacity:.7;margin-top:3px;">1 đang HOLD ⏳</div>
+      </div>
+
+      <!-- Hao hụt -->
+      <div style="padding:14px 14px 12px;
+        background:linear-gradient(135deg,rgba(255,45,85,.05) 0%,#07201a 60%);
+        border-left:2px solid rgba(255,45,85,.3);
+        transition:background .2s;"
+        onmouseenter="this.style.background='rgba(255,45,85,.08)'"
+        onmouseleave="this.style.background='linear-gradient(135deg,rgba(255,45,85,.05) 0%,#07201a 60%)'">
+        <div style="font-family:var(--mono);font-size:6.5px;color:var(--t3);
+          letter-spacing:.15em;text-transform:uppercase;margin-bottom:8px;">Hao Hụt Bao Bì</div>
+        <div style="font-family:var(--head);font-size:28px;font-weight:800;
+          color:var(--red);line-height:1;filter:drop-shadow(0 0 12px rgba(255,45,85,.45));">1.35<span style="font-size:14px;color:rgba(255,45,85,.6);">%</span></div>
+        <div style="font-family:var(--mono);font-size:7.5px;color:var(--red);
+          margin-top:5px;font-weight:700;">Nắp 160ml ⚠</div>
+        <div style="font-family:var(--mono);font-size:7px;color:var(--t3);margin-top:2px;">GV Cháo 0.30% vượt</div>
+      </div>
+    </div>
+  </div>`;
+
+  // Animate OEE count-up
+  setTimeout(()=>{
+    const numEl=$('kcc-oee-num');
+    const bar=$('kcc-oee-bar');
+    if(bar) bar.style.width='78%';
+    if(numEl){
+      let v=0;
+      const iv=setInterval(()=>{
+        v+=2; numEl.textContent=Math.min(v,78)+'%';
+        if(v>=78) clearInterval(iv);
+      },20);
+    }
+    // Volume count-up
+    const volEl=$('kcc-vol-num');
+    if(volEl){
+      let v=0; const target=13.94;
+      const iv2=setInterval(()=>{
+        v+=0.18; volEl.textContent=Math.min(v,target).toFixed(1);
+        if(v>=target) clearInterval(iv2);
+      },25);
+    }
+  },300);
+}
+
+// ════════════════════════════════════════════════════════
+//  BUILD Q1
+// ════════════════════════════════════════════════════════
+let q1Built=false;
+function buildQ1(){
+  if(q1Built) return; q1Built=true;
+
+  buildScorecard();
+
+  // Hero gauge + score bar
+  setTimeout(()=>{
+    const ring=$('heroRing');
+    if(ring) ring.setAttribute('stroke-dasharray', (163*.78)+' '+(163*.22));
+    const gn=$('gaugeNum');
+    if(gn){ let v=0; const iv=setInterval(()=>{ v+=2; gn.textContent=Math.min(v,78)+'%'; if(v>=78) clearInterval(iv); },25); }
+    const sb=$('scoreBar'); if(sb) sb.style.width='78%';
+  },400);
+
+  // OEE chart
+  const oeeEl=$('oeeChart');
+  if(oeeEl){
+    oeeEl.innerHTML = OEE_DATA.map((d,i)=>{
+      const ok=d.v>=83, near=d.v>=75;
+      const col=ok?'var(--jade)':near?'var(--amber)':'var(--red)';
+      const glow=ok?'rgba(0,229,168,.5)':near?'rgba(255,176,32,.4)':'rgba(255,45,85,.5)';
+      const bg=ok?'rgba(0,229,168,.05)':near?'':'rgba(255,45,85,.06)';
+      return `<div class="oee-row" ${bg?'style="background:'+bg+'"':''}>
+        <div class="oee-name" style="color:${ok?'var(--jade2)':near?'var(--text)':'var(--red)'}">${d.n}</div>
+        <div class="oee-track">
+          <div class="oee-fill" data-w="${d.v}" style="background:${col};box-shadow:0 0 12px ${glow};transition-delay:${i*.05}s;"></div>
+          <div class="oee-target" style="left:${d.t}%"></div>
+          <div class="oee-diamond" style="left:calc(${d.t}% - 4px)"></div>
+        </div>
+        <div class="oee-num" style="color:${col};text-shadow:0 0 10px ${glow}">${d.v}%</div>
+      </div>`;
+    }).join('');
+    setTimeout(()=>animBars(oeeEl),80);
+  }
+
+  // Trend SVG
+  const tSvg=$('trendSvg');
+  if(tSvg){
+    const W=320,H=130,pad={l:30,r:10,t:18,b:4};
+    const iw=W-pad.l-pad.r, ih=H-pad.t-pad.b;
+    const series=[
+      {c:'#00e5a8',sh:'rgba(0,229,168,.4)', v:[2198000,2407000,2522000]},
+      {c:'#00d4ff',sh:'rgba(0,212,255,.3)', v:[1200000,1380000,1535000]},
+      {c:'#ffb020',sh:'rgba(255,176,32,.3)', v:[3660000,3810000,4070000]},
+    ];
+    const maxV=4600000;
+    const xs=[pad.l, pad.l+iw*.5, pad.l+iw];
+    let s='<defs>';
+    series.forEach((sr,si)=>{ s+=`<linearGradient id="tg${si}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${sr.c}" stop-opacity=".38"/><stop offset="100%" stop-color="${sr.c}" stop-opacity=".02"/></linearGradient>`; });
+    s+='</defs>';
+    [0,.25,.5,.75,1].forEach(g=>{
+      const y=pad.t+ih*(1-g);
+      s+=`<line x1="${pad.l}" y1="${y}" x2="${W-pad.r}" y2="${y}" stroke="rgba(0,229,168,.06)" stroke-width="1" stroke-dasharray="3 3"/>`;
+      if(g>0) s+=`<text x="${pad.l-3}" y="${y+3}" text-anchor="end" font-family="IBM Plex Mono,monospace" font-size="7" fill="#3a7a62">${(maxV*g/1e6).toFixed(1)}M</text>`;
+    });
+    series.forEach((sr,si)=>{
+      const ys=sr.v.map(v=>pad.t+ih*(1-v/maxV));
+      const c1x=(xs[0]+xs[1])/2, c2x=(xs[1]+xs[2])/2;
+      const area=`M ${xs[0]},${pad.t+ih} L ${xs[0]},${ys[0]} C ${c1x},${ys[0]} ${c1x},${ys[1]} ${xs[1]},${ys[1]} C ${c2x},${ys[1]} ${c2x},${ys[2]} ${xs[2]},${ys[2]} L ${xs[2]},${pad.t+ih} Z`;
+      const line=`M ${xs[0]},${ys[0]} C ${c1x},${ys[0]} ${c1x},${ys[1]} ${xs[1]},${ys[1]} C ${c2x},${ys[1]} ${c2x},${ys[2]} ${xs[2]},${ys[2]}`;
+      s+=`<path d="${area}" fill="url(#tg${si})"/>`;
+      s+=`<path d="${line}" fill="none" stroke="${sr.c}" stroke-width="2.5" stroke-linecap="round" filter="drop-shadow(0 0 3px ${sr.sh})"/>`;
+      ys.forEach((y,i)=>{
+        s+=`<circle cx="${xs[i]}" cy="${y}" r="4.5" fill="${sr.c}" stroke="var(--bg)" stroke-width="2" filter="drop-shadow(0 0 4px ${sr.sh})"/>`;
+        if(si===0) s+=`<text x="${xs[i]}" y="${y-10}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="8" fill="${sr.c}" font-weight="600">${(sr.v[i]/1e6).toFixed(2)}M</text>`;
+      });
+    });
+    tSvg.innerHTML=s;
+  }
+
+  // Donut
+  const dSvg=$('donutSvg'), dLeg=$('donutLegend');
+  if(dSvg){
+    const cx=90,cy=90,r=64,sw=22,circ=2*Math.PI*r;
+    const total=VOL_DATA.reduce((s,d)=>s+d.v,0);
+    let sv='<defs><filter id="dg"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>';
+    sv+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="rgba(16,38,32,.9)" stroke-width="${sw}"/>`;
+    let off=circ*.25;
+    VOL_DATA.forEach((d,i)=>{
+      const dash=d.v/total*circ;
+      sv+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${d.c}" stroke-width="${sw}"
+        stroke-dasharray="${Math.max(0,dash-2)} ${circ-Math.max(0,dash-2)}"
+        stroke-dashoffset="${-off+circ*.25}" transform="rotate(-90 ${cx} ${cy})" stroke-linecap="butt"
+        ${i===0?'filter="url(#dg)"':''}/>`;
+      off-=dash;
+    });
+    sv+=`<text x="${cx}" y="${cy-6}" text-anchor="middle" font-family="Syne,sans-serif" font-size="21" font-weight="800" fill="#00ffbb">13.9M</text>`;
+    sv+=`<text x="${cx}" y="${cy+10}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="8" fill="#8dcfb8">sp · 100 SKU</text>`;
+    sv+=`<text x="${cx}" y="${cy+22}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="7" fill="#3a7a62">Q1 / 2026</text>`;
+    dSvg.innerHTML=sv;
+    dLeg.innerHTML=VOL_DATA.map(d=>{
+      const pct=(d.v/total*100).toFixed(1);
+      return `<div style="display:flex;align-items:center;gap:7px;margin-bottom:5px;">
+        <div style="width:9px;height:9px;border-radius:50%;background:${d.c};flex-shrink:0;box-shadow:0 0 5px ${d.c}88;"></div>
+        <span style="font-family:var(--mono);font-size:8px;color:var(--t2);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${d.l}</span>
+        <span style="font-family:var(--mono);font-size:8px;font-weight:700;color:${d.c};">${fmtM(d.v)}</span>
+        <span style="font-family:var(--mono);font-size:7px;color:var(--t3);min-width:30px;text-align:right;">${pct}%</span>
+      </div>`;
+    }).join('');
+  }
+
+  // Volume bars
+  const volEl=$('volBars');
+  if(volEl){
+    const mx=VOL_DATA[0].v;
+    volEl.innerHTML=VOL_DATA.map((d,i)=>`
+      <div class="ob-row">
+        <div class="ob-label">${d.l}</div>
+        <div class="ob-track"><div class="ob-fill" data-w="${Math.round(d.v/mx*100)}" style="background:${d.c};box-shadow:0 0 7px ${d.c}55;transition-delay:${i*.05}s;"></div></div>
+        <div class="ob-val" style="color:${d.c};">${fmtM(d.v)}</div>
+      </div>`).join('');
+    setTimeout(()=>animBars(volEl),80);
+  }
+
+  // Manhour
+  const mhEl=$('manhourChart');
+  if(mhEl){
+    const mx=Math.max(...MH_DATA.flatMap(d=>[d.a,d.t]))*1.1;
+    mhEl.innerHTML=MH_DATA.map((d,i)=>{
+      const over=d.a>d.t, col=over?'var(--red)':'var(--jade)';
+      const pct=Math.abs(((d.a/d.t-1)*100)).toFixed(0);
+      const badge=over
+        ?`<span class="mh-badge over">+${pct}%</span>`
+        :`<span class="mh-badge ok">−${pct}%</span>`;
+      return `<div class="mh-row">
+        <div class="mh-head">
+          <span class="mh-name">${d.n}</span>
+          <div class="mh-nums">
+            ${badge}
+            <span class="mh-actual" style="color:${col};">${d.a}</span>
+            <span class="mh-target">/ ${d.t}</span>
+          </div>
+        </div>
+        <div class="mh-track">
+          <div class="mh-bg" data-w="${Math.round(d.t/mx*100)}"></div>
+          <div class="mh-bar" data-w="${Math.round(d.a/mx*100)}" style="background:${col};box-shadow:0 0 9px ${over?'rgba(255,45,85,.45)':'rgba(0,229,168,.4)'};transition-delay:${i*.07}s;"></div>
+        </div>
+      </div>`;
+    }).join('');
+    setTimeout(()=>animBars(mhEl),80);
+  }
+
+  // Loss bao bi
+  buildLossBars('lossBaobi', BAOBI_DATA);
+  buildLossNLEmotional();
+  // TP waterfall
+  buildTPBars('lossTP', TP_DATA);
+}
+
+// ════════════════════════════════════════════════════════
+//  BUILD DEFECTS
+// ════════════════════════════════════════════════════════
+let defBuilt=false;
+function buildDefects(){
+  if(defBuilt) return; defBuilt=true;
+  buildLossBars('defBaobi', BAOBI_DATA);
+  buildTPBars('defTP', TP_DATA);
+  // Radar
+  const rSvg=$('radarSvg');
+  if(rSvg){
+    const cx=140,cy=115,r=80;
+    const axes=['Nắp/Bao bì','Màng cháo','NL đường','Phôi/Gạo','Ngũ cốc'];
+    const actual=[0.85,0.83,0.45,0.43,0.35];
+    const tgt=[0.50,0.67,0.40,0.40,0.30];
+    function polar(i,val){ const a=-Math.PI/2+i*2*Math.PI/5; return [cx+Math.cos(a)*r*val,cy+Math.sin(a)*r*val]; }
+    let s='';
+    [.25,.5,.75,1].forEach(g=>{
+      const pts=axes.map((_,i)=>polar(i,g).join(',')).join(' ');
+      s+=`<polygon points="${pts}" fill="none" stroke="rgba(0,229,168,.09)" stroke-width="1"/>`;
+    });
+    axes.forEach((_,i)=>{ const [x,y]=polar(i,1); s+=`<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="rgba(0,229,168,.14)" stroke-width="1"/>`; });
+    const tPts=tgt.map((_,i)=>polar(i,tgt[i]).join(',')).join(' ');
+    s+=`<polygon points="${tPts}" fill="rgba(255,176,32,.07)" stroke="rgba(255,176,32,.55)" stroke-width="1.5" stroke-dasharray="4 2"/>`;
+    const aPts=actual.map((_,i)=>polar(i,actual[i]).join(',')).join(' ');
+    s+=`<polygon points="${aPts}" fill="rgba(255,45,85,.15)" stroke="rgba(255,45,85,.9)" stroke-width="2"/>`;
+    actual.forEach((v,i)=>{
+      const [x,y]=polar(i,v);
+      const col=v>tgt[i]?'#ff2d55':'#00e5a8';
+      s+=`<circle cx="${x}" cy="${y}" r="5" fill="${col}" stroke="var(--bg)" stroke-width="1.5"/>`;
+    });
+    axes.forEach((lbl,i)=>{
+      const [x,y]=polar(i,1.26);
+      s+=`<text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="middle" font-family="IBM Plex Mono,monospace" font-size="9" fill="#8dcfb8">${lbl}</text>`;
+    });
+    rSvg.innerHTML=s;
+  }
+}
+
+// ════════════════════════════════════════════════════════
+//  BUILD ACTION
+// ════════════════════════════════════════════════════════
+let actBuilt=false;
+function buildAction(){
+  if(actBuilt) return; actBuilt=true;
+  // seed default tasks from PLANNED data if localStorage empty
+  if(!localStorage.getItem('lf_tasks')){
+    const seed = PLANNED.map((p,i)=>({
+      id: Date.now()+i,
+      txt: p.title,
+      note: p.desc,
+      own: p.own,
+      pri: i===0?'high':i<=2?'mid':'low',
+      due: '',
+      status:'todo'
+    }));
+    localStorage.setItem('lf_tasks', JSON.stringify(seed));
+  }
+}
+
+// ════════════════════════════════════════════════════════
+//  SHARED CHART BUILDERS
+// ════════════════════════════════════════════════════════
+function buildLossBars(elId, data){
+  const el=$(elId); if(!el) return;
+  const maxV=Math.max(...data.map(d=>d.a), ...data.filter(d=>d.t).map(d=>d.t))*1.25;
+  el.innerHTML=data.map((d,i)=>{
+    const col=d.over?'var(--red)':'var(--jade)';
+    const glow=d.over?'rgba(255,45,85,.4)':'rgba(0,229,168,.3)';
+    const bw=Math.round(d.a/maxV*100);
+    const tw=d.t?Math.round(d.t/maxV*100):null;
+    return `<div class="loss-row">
+      <div class="loss-name">${d.n}</div>
+      <div class="loss-track">
+        <div class="loss-fill" data-w="${bw}" style="background:${col};box-shadow:0 0 8px ${glow};transition-delay:${i*.04}s;"></div>
+        ${tw?`<div class="loss-tgt" style="left:${tw}%"></div>`:''}
+      </div>
+      <div class="loss-val" style="color:${col};">${d.a}%${d.t?`<br><span style="font-size:8px;color:var(--t3);">/&thinsp;${d.t}%</span>`:''}</div>
+    </div>`;
+  }).join('');
+  setTimeout(()=>animBars(el),80);
+}
+
+function buildTPBars(elId, data){
+  const el=$(elId); if(!el) return;
+  const maxA=Math.max(...data.map(d=>Math.abs(d.v)))*1.2;
+  el.innerHTML=data.map((d,i)=>{
+    const neg=d.v<0, col=neg?'var(--jade)':'var(--red)';
+    const bw=Math.abs(d.v)/maxA*100;
+    return `<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+      <div style="font-size:11px;font-weight:600;color:var(--text);width:76px;flex-shrink:0;">${d.n}</div>
+      <div style="flex:1;position:relative;height:11px;background:var(--bd);border-radius:5px;overflow:hidden;">
+        <div data-w="${bw}" style="position:absolute;${neg?'right':'left'}:0;width:0;height:100%;
+          background:${col};border-radius:5px;box-shadow:0 0 7px ${neg?'rgba(0,229,168,.3)':'rgba(255,45,85,.3)'};
+          transition:width 1.4s ${i*.06}s ease;"></div>
+      </div>
+      <div style="font-family:var(--mono);font-size:9.5px;font-weight:700;color:${col};min-width:44px;text-align:right;">${d.v>0?'+':''}${d.v}%</div>
+      <div style="font-family:var(--mono);font-size:7px;color:var(--t3);min-width:54px;">${neg?'← SX thừa':'Thiếu hụt →'}</div>
+    </div>`;
+  }).join('');
+  setTimeout(()=>animBars(el),100);
+}
+
+function buildLossNLEmotional(){
+  // ── Top 3 gauge rings ──────────────────────────────────
+  const gaugeEl=$('lossNLGauges'); if(!gaugeEl) return;
+  const top3=NL_DATA.slice(0,3);
+  const R=36, C=2*Math.PI*R;
+  gaugeEl.innerHTML=top3.map(d=>{
+    const col=d.ok?'var(--jade)':'var(--red)';
+    const glow=d.ok?'rgba(0,229,168,.5)':'rgba(255,45,85,.5)';
+    const pct=d.t ? Math.min(d.a/d.t,1.4) : 0.5;
+    const dash=Math.min(pct,1)*C;
+    return `<div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+      <svg viewBox="0 0 88 88" style="width:80px;height:80px;">
+        <circle cx="44" cy="44" r="${R}" fill="none" stroke="rgba(22,54,40,.8)" stroke-width="8"/>
+        <circle cx="44" cy="44" r="${R}" fill="none" stroke="${col}" stroke-width="8"
+          stroke-dasharray="${dash.toFixed(1)} ${C.toFixed(1)}"
+          stroke-dashoffset="${(C*.25).toFixed(1)}"
+          transform="rotate(-90 44 44)"
+          stroke-linecap="round"
+          style="filter:drop-shadow(0 0 4px ${glow});transition:stroke-dasharray 1.4s ease;"/>
+        <text x="44" y="40" text-anchor="middle" font-family="Syne,sans-serif"
+          font-size="14" font-weight="800" fill="${col}">${d.a}%</text>
+        <text x="44" y="54" text-anchor="middle" font-family="IBM Plex Mono,monospace"
+          font-size="7" fill="rgba(141,207,184,.6)">${d.t?'/'+d.t+'%':'ref'}</text>
+      </svg>
+      <div style="font-family:var(--mono);font-size:8px;color:var(--t2);text-align:center;">${d.n}</div>
+      <div style="font-size:11px;">${d.ok?'✅':'⚠️'}</div>
+    </div>`;
+  }).join('');
+
+  // ── Heat grid — all NL items ───────────────────────────
+  const heatEl=$('lossNLHeat'); if(!heatEl) return;
+  heatEl.innerHTML=NL_DATA.map(d=>{
+    const col=d.ok?'var(--jade)':'var(--red)';
+    const bg=d.ok?'rgba(0,229,168,.07)':'rgba(255,45,85,.07)';
+    const border=d.ok?'rgba(0,229,168,.2)':'rgba(255,45,85,.22)';
+    return `<div style="background:${bg};border:1px solid ${border};
+      border-radius:10px;padding:9px 8px;text-align:center;transition:transform .2s;"
+      onmouseenter="this.style.transform='translateY(-2px)'"
+      onmouseleave="this.style.transform=''">
+      <div style="font-family:var(--head);font-size:16px;font-weight:800;
+        color:${col};line-height:1;margin-bottom:2px;">${d.a}%</div>
+      ${d.t?`<div style="font-family:var(--mono);font-size:7px;color:var(--t3);">/&thinsp;${d.t}%</div>`:''}
+      <div style="font-family:var(--mono);font-size:7.5px;color:var(--t2);
+        margin-top:4px;">${d.n}</div>
+      <div style="font-size:10px;margin-top:2px;">${d.ok?'✓':'⚠'}</div>
+    </div>`;
+  }).join('');
+}
+
+// ════════════════════════════════════════════════════════
+//  ACTION PLAN — CRUD + RENDER
+// ════════════════════════════════════════════════════════
+let _actFilter='all', _actPri='', _actEditId=null;
+
+function actTasks(){ try{ return JSON.parse(localStorage.getItem('lf_tasks')||'[]'); }catch(e){return[];} }
+function actSaveTasks(arr){ localStorage.setItem('lf_tasks', JSON.stringify(arr)); }
+
+function actRender(){
+  const list=$('act-list'); if(!list) return;
+  const empty=$('act-empty');
+  const srch=($('act-srch')||{}).value||'';
+  const tasks=actTasks();
+  const today=new Date(); today.setHours(0,0,0,0);
+
+  const filtered=tasks.filter(t=>{
+    if(_actFilter==='todo' && t.status!=='todo') return false;
+    if(_actFilter==='done' && t.status!=='done') return false;
+    if(_actFilter==='hold' && t.status!=='hold') return false;
+    if(_actPri && t.pri!==_actPri) return false;
+    if(srch && !t.txt.toLowerCase().includes(srch.toLowerCase())) return false;
+    return true;
+  });
+
+  // summary
+  const total=tasks.length, done=tasks.filter(t=>t.status==='done').length;
+  const late=tasks.filter(t=>t.status==='todo'&&t.due&&new Date(t.due)<today).length;
+  const pct=total?Math.round(done/total*100):0;
+  const tot=$('as-total'),dn=$('as-done'),lt=$('as-late'),pc=$('as-pct'),ab=$('as-bar');
+  if(tot) tot.textContent=total;
+  if(dn) dn.textContent=done;
+  if(lt) lt.textContent=late;
+  if(pc) pc.textContent=pct+'%';
+  if(ab) ab.style.width=pct+'%';
+
+  if(!filtered.length){
+    list.innerHTML='';
+    if(empty) empty.style.display='block';
+    return;
+  }
+  if(empty) empty.style.display='none';
+
+  const priLabel={high:'🔴 Gấp',mid:'🟡 TB',low:'🟢 Thấp'};
+  const priCol={high:'var(--red)',mid:'var(--amber)',low:'var(--jade)'};
+  const stCol={todo:'var(--cyan)',done:'var(--jade)',hold:'var(--violet)'};
+  const stLabel={todo:'Đang làm',done:'✓ Xong',hold:'⏸ Hold'};
+
+  list.innerHTML=filtered.map(t=>{
+    const isDone=t.status==='done', isHold=t.status==='hold';
+    let dueHtml='';
+    if(t.due){
+      const d=new Date(t.due); d.setHours(0,0,0,0);
+      const diff=Math.round((d-today)/(1000*60*60*24));
+      const cls=diff<0?'late':diff<=3?'soon':'';
+      const lbl=diff<0?`Trễ ${-diff}n`:diff===0?'Hôm nay':diff<=3?`Còn ${diff}n`:`${t.due}`;
+      dueHtml=`<span class="act-due ${cls}">📅 ${lbl}</span>`;
+    }
+    return `<div class="act-card pri-${t.pri} ${isDone?'st-done':isHold?'st-hold':''}" data-id="${t.id}">
+      <div class="act-card-top">
+        <div class="act-cb" onclick="actToggleDone(${t.id})"></div>
+        <div class="act-card-body">
+          <div class="act-card-txt">${t.txt}</div>
+          <div class="act-card-meta">
+            <span class="act-pri-badge" style="color:${priCol[t.pri]};background:${priCol[t.pri]}18;border-color:${priCol[t.pri]}44;">${priLabel[t.pri]}</span>
+            ${t.own?`<span class="act-owner-badge">👤 ${t.own}</span>`:''}
+            ${dueHtml}
+            <span class="act-status-badge" style="color:${stCol[t.status]};background:${stCol[t.status]}15;">${stLabel[t.status]}</span>
+          </div>
+          ${t.note?`<div class="act-note">${t.note}</div>`:''}
+        </div>
+        <div class="act-card-actions">
+          <button class="act-icon-btn" onclick="actEdit(${t.id})" title="Sửa">✏️</button>
+          <button class="act-icon-btn" onclick="actCycleStatus(${t.id})" title="Đổi trạng thái">🔄</button>
+          <button class="act-icon-btn del" onclick="actDelete(${t.id})" title="Xóa">🗑</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function actOpenForm(){ _actEditId=null; actResetForm(); $('act-form-title').textContent='Tạo Task Mới'; $('act-form').style.display='block'; $('af-txt').focus(); }
+function actCloseForm(){ $('act-form').style.display='none'; actResetForm(); }
+function actResetForm(){ $('af-txt').value=''; $('af-own').value=''; $('af-pri').value='mid'; $('af-due').value=''; $('af-note').value=''; }
+
+function actSave(){
+  const txt=($('af-txt').value||'').trim();
+  if(!txt){ $('af-txt').style.borderColor='var(--red)'; setTimeout(()=>$('af-txt').style.borderColor='',1200); return; }
+  const task={ id:_actEditId||Date.now(), txt, own:$('af-own').value, pri:$('af-pri').value, due:$('af-due').value, note:$('af-note').value, status:'todo' };
+  const tasks=actTasks();
+  if(_actEditId){ const i=tasks.findIndex(t=>t.id===_actEditId); if(i>-1){ task.status=tasks[i].status; tasks[i]=task; } }
+  else tasks.unshift(task);
+  actSaveTasks(tasks); actCloseForm(); actRender(); showToast(_actEditId?'Đã cập nhật task ✓':'Task mới đã tạo ✓');
+}
+
+function actEdit(id){
+  const t=actTasks().find(t=>t.id===id); if(!t) return;
+  _actEditId=id; $('af-txt').value=t.txt; $('af-own').value=t.own||''; $('af-pri').value=t.pri; $('af-due').value=t.due||''; $('af-note').value=t.note||'';
+  $('act-form-title').textContent='Sửa Task'; $('act-form').style.display='block'; $('af-txt').focus();
+}
+function actDelete(id){ if(!confirm('Xóa task này?')) return; actSaveTasks(actTasks().filter(t=>t.id!==id)); actRender(); showToast('Đã xóa ✓'); }
+function actToggleDone(id){ const tasks=actTasks(); const t=tasks.find(t=>t.id===id); if(t) t.status=t.status==='done'?'todo':'done'; actSaveTasks(tasks); actRender(); }
+function actCycleStatus(id){ const tasks=actTasks(); const t=tasks.find(t=>t.id===id); if(t){ const cycle={todo:'hold',hold:'done',done:'todo'}; t.status=cycle[t.status]||'todo'; } actSaveTasks(tasks); actRender(); }
+
+function actFilter(f,btn){
+  _actFilter=f;
+  document.querySelectorAll('.act-f').forEach(b=>b.classList.remove('act-f-on'));
+  if(btn) btn.classList.add('act-f-on');
+  actRender();
+}
+function actPriFilter(p,btn){
+  _actPri=p;
+  document.querySelectorAll('.act-p').forEach(b=>b.classList.remove('act-p-on'));
+  if(btn) btn.classList.add('act-p-on');
+  actRender();
+}
+
+function showToast(msg){
+  const w=$('toasts'); if(!w) return;
+  const t=document.createElement('div'); t.className='toast'; t.textContent=msg;
+  w.appendChild(t); setTimeout(()=>t.remove(),2800);
+}
+
+// ════════════════════════════════════════════════════════
+//  INIT
+// ════════════════════════════════════════════════════════
+setTimeout(()=>{
+  buildQ1();
+  // Observe all views for lazy animation
+  document.querySelectorAll('.view').forEach(v=>revIO.observe(v));
+  // Count-up in active view immediately
+  document.querySelectorAll('.view.active .count-up').forEach(countUp);
+}, 2300);
+
+// ════════════════════════════════════════════════════════
+//  PRODUCT STRUCTURE — buildProductStructure()
+// ════════════════════════════════════════════════════════
+const CAT_DATA = [
+  {cat:'GIA VỊ HOÀN CHỈNH',          v:5832623, col:'#00e5a8', pct:39.1, skus:12},
+  {cat:'YẾN LON-ĐÓNG KHAY',          v:2700005, col:'#00d4ff', pct:18.1, skus:11},
+  {cat:'NGŨ CỐC',                    v:1849995, col:'#ffb020', pct:12.4, skus:15},
+  {cat:'YẾN LON-ĐÓNG GÓI HỘP',      v:1450194, col:'#4d9eff', pct:9.7,  skus:6},
+  {cat:'YẾN LỌ 70ML-ĐÓNG BUNDLE',   v:1319734, col:'#a855f7', pct:8.9,  skus:14},
+  {cat:'CHÁO KHÔ',                   v:910952,  col:'#ff6b7a', pct:6.1,  skus:16},
+  {cat:'YẾN HỘP 70ML',              v:658000,  col:'#00b8a0', pct:4.4,  skus:11},
+  {cat:'YẾN LỌ BEAUTY 160ML',       v:138870,  col:'#7eb8f0', pct:0.9,  skus:5},
+  {cat:'CHÁO TƯƠI RETORT',           v:40650,   col:'#ffd166', pct:0.3,  skus:10},
+];
+
+const TOP10 = [
+  {rank:1,  item:'GVXC001', name:'Xốt kho thịt',            cat:'Gia vị HChỉnh', v:604417, col:'#00e5a8', trend:'up'},
+  {rank:2,  item:'GVXC002', name:'Xốt kho cá',              cat:'Gia vị HChỉnh', v:604417, col:'#00e5a8', trend:'up'},
+  {rank:3,  item:'GVXC003', name:'Xốt ướp nướng BBQ',       cat:'Gia vị HChỉnh', v:604417, col:'#00e5a8', trend:'up'},
+  {rank:4,  item:'GVXC005', name:'Xốt ướp nướng ngũ vị',    cat:'Gia vị HChỉnh', v:604417, col:'#00e5a8', trend:'up'},
+  {rank:5,  item:'GVXC008', name:'GVHC Phở Bò',             cat:'Gia vị HChỉnh', v:604417, col:'#00e5a8', trend:'up'},
+  {rank:6,  item:'GVXC118', name:'Xốt Gà chiên nước mắm',   cat:'Gia vị HChỉnh', v:604417, col:'#00e5a8', trend:'up'},
+  {rank:7,  item:'GVXC120', name:'Xốt thịt kho tàu',        cat:'Gia vị HChỉnh', v:604417, col:'#00e5a8', trend:'up'},
+  {rank:8,  item:'GVXC121', name:'Xốt sườn xào chua ngọt',  cat:'Gia vị HChỉnh', v:604417, col:'#00e5a8', trend:'up'},
+  {rank:9,  item:'GVHL001', name:'GVHC Lẩu Thái',           cat:'Gia vị HChỉnh', v:302208, col:'#00d4ff', trend:'stable'},
+  {rank:10, item:'GVHL002', name:'GVHC Lẩu Chua Cay',       cat:'Gia vị HChỉnh', v:302208, col:'#00d4ff', trend:'stable'},
+];
+
+const BOT10 = [
+  {rank:91, item:'CHTP025', name:'Cháo tươi Yến Lươn-đậu xanh',     cat:'Cháo tươi', v:4065, col:'#ffd166', signal:'review'},
+  {rank:92, item:'CHTP027', name:'Cháo tươi Yến Cá lóc-đậu xanh',   cat:'Cháo tươi', v:4065, col:'#ffd166', signal:'review'},
+  {rank:93, item:'CHTP029', name:'Cháo tươi Yến thịt bằm bí đỏ',    cat:'Cháo tươi', v:4065, col:'#ffd166', signal:'review'},
+  {rank:94, item:'CHTP031', name:'Cháo tươi Yến thịt sườn rau củ',  cat:'Cháo tươi', v:4065, col:'#ffd166', signal:'review'},
+  {rank:95, item:'CHTP033', name:'Cháo tươi Yến Gà-Cà rốt Phô mai', cat:'Cháo tươi', v:4065, col:'#ffd166', signal:'review'},
+  {rank:96, item:'CHTP035', name:'Cháo tươi Yến Cá hồi Cải bó Xôi', cat:'Cháo tươi', v:4065, col:'#ffd166', signal:'focus'},
+  {rank:97, item:'CHTP041', name:'Cháo tươi GOLD - Thịt thăn rau củ',cat:'Cháo tươi', v:4065, col:'#ffd166', signal:'focus'},
+  {rank:98, item:'CHTP043', name:'Cháo tươi GOLD - Thịt gà cà rốt', cat:'Cháo tươi', v:4065, col:'#ffd166', signal:'focus'},
+  {rank:99, item:'CHTP045', name:'Cháo tươi GOLD - Thịt bò đậu đỏ', cat:'Cháo tươi', v:4065, col:'#ffd166', signal:'focus'},
+  {rank:100,item:'CHTP053', name:'Cháo tươi GOLD - Thịt thăn bí đỏ',cat:'Cháo tươi', v:4065, col:'#ffd166', signal:'focus'},
+];
+
+let prodBuilt = false;
+function buildProductStructure() {
+  if (prodBuilt) return; prodBuilt = true;
+  const el = $('detail-content'); if (!el) return;
+
+  // helpers
+  const tag = (txt, col, bg) =>
+    `<span style="font-family:var(--mono);font-size:7.5px;font-weight:700;letter-spacing:.06em;
+      padding:2px 9px;border-radius:8px;color:${col};background:${bg};border:1px solid ${col}33;">${txt}</span>`;
+  const chip = (icon, txt) =>
+    `<span style="font-family:var(--mono);font-size:8px;color:var(--t2);
+      background:var(--s2);border:1px solid var(--bd);padding:2px 9px;border-radius:6px;">${icon} ${txt}</span>`;
+  const secHead = (title, sub, col='var(--jade)') => `
+    <div style="display:flex;align-items:center;gap:10px;margin:24px 0 12px;">
+      <div style="font-family:var(--mono);font-size:7.5px;color:${col};
+        letter-spacing:.22em;text-transform:uppercase;white-space:nowrap;font-weight:700;">${title}</div>
+      <div style="flex:1;height:1px;background:linear-gradient(90deg,${col}44,transparent);"></div>
+      ${sub ? `<div style="font-family:var(--mono);font-size:7px;color:var(--t3);white-space:nowrap;">${sub}</div>` : ''}
+    </div>`;
+  const row = (label, val, note='', valCol='var(--text)') => `
+    <div style="display:flex;align-items:baseline;gap:10px;padding:9px 0;
+      border-bottom:1px solid rgba(0,229,168,.07);">
+      <div style="font-family:var(--mono);font-size:9px;color:var(--t3);
+        min-width:130px;flex-shrink:0;">${label}</div>
+      <div style="font-size:12.5px;font-weight:700;color:${valCol};flex:1;">${val}</div>
+      ${note ? `<div style="font-family:var(--mono);font-size:8px;color:var(--t3);text-align:right;flex-shrink:0;">${note}</div>` : ''}
+    </div>`;
+  const expandCard = (id, title, badgeTxt, badgeCol, badgeBg, bodyHtml) => `
+    <div style="border:1px solid var(--bd);border-radius:14px;overflow:hidden;margin-bottom:8px;background:var(--s1);">
+      <div onclick="toggleDetail('${id}')"
+        style="display:flex;align-items:center;justify-content:space-between;
+          padding:12px 16px;cursor:pointer;transition:background .15s;"
+        onmouseenter="this.style.background='var(--s2)'" onmouseleave="this.style.background=''">
+        <div style="font-family:var(--sans);font-size:12.5px;font-weight:700;color:var(--text);">${title}</div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <span style="font-family:var(--mono);font-size:7.5px;font-weight:700;
+            padding:2px 9px;border-radius:8px;color:${badgeCol};background:${badgeBg};">${badgeTxt}</span>
+          <span id="arr-${id}" style="color:var(--t3);font-size:11px;transition:transform .2s;">▼</span>
+        </div>
+      </div>
+      <div id="body-${id}" style="display:none;padding:0 16px 14px;border-top:1px solid var(--bd);">
+        ${bodyHtml}
+      </div>
+    </div>`;
+
+  // ── OEE detail body ──────────────────────────────────
+  const oeeBody = `
+    <div style="padding-top:10px;">
+      ${OEE_DATA.map(d => {
+        const ok=d.v>=83, warn=d.v>=75;
+        const col=ok?'var(--jade)':warn?'var(--amber)':'var(--red)';
+        return row(d.n, d.v+'%', d.v>=83?'✓ Đạt':d.v>=75?'Gần target':'⚠ Thấp', col);
+      }).join('')}
+      <div style="margin-top:10px;padding:10px 12px;background:rgba(0,229,168,.06);
+        border-radius:10px;border:1px solid rgba(0,229,168,.14);">
+        <div style="font-family:var(--mono);font-size:8px;color:var(--jade);margin-bottom:4px;">PHÂN TÍCH</div>
+        <div style="font-size:11px;color:var(--t2);line-height:1.7;">
+          1 nhóm vượt target (GV Xốt 90%) · 10 nhóm chưa đạt · Thấp nhất: GV Lọ 59%
+          do thiếu mặt bằng và màng bao bì lỗi. Cần bố trí lại khu vực Q2.
+        </div>
+      </div>
+    </div>`;
+
+  // ── Manhour detail body ──────────────────────────────
+  const mhBody = `
+    <div style="padding-top:10px;">
+      ${MH_DATA.map(d => {
+        const over=d.a>d.t;
+        const pct=((d.a/d.t-1)*100).toFixed(0);
+        const col=over?'var(--red)':'var(--jade)';
+        return row(d.n,
+          `${d.a} <span style="font-size:9px;color:var(--t3);">/ target ${d.t}</span>`,
+          over?`+${pct}% vượt`:`−${Math.abs(pct)}% tiết kiệm`, col);
+      }).join('')}
+      <div style="margin-top:10px;padding:10px 12px;background:rgba(255,45,85,.06);
+        border-radius:10px;border:1px solid rgba(255,45,85,.14);">
+        <div style="font-family:var(--mono);font-size:8px;color:var(--red);margin-bottom:4px;">PHÂN TÍCH</div>
+        <div style="font-size:11px;color:var(--t2);line-height:1.7;">
+          6/8 nhóm vượt manhour target. Nghiêm trọng nhất: Nấu xốt 33.51 vs target 25.00 (+34%).
+          Chỉ Lon 190ml và Gia vị xốt đạt / thấp hơn target.
+        </div>
+      </div>
+    </div>`;
+
+  // ── Hao hụt bao bì body ──────────────────────────────
+  const bbBody = `
+    <div style="padding-top:10px;">
+      ${BAOBI_DATA.map(d => {
+        const col=d.over?'var(--red)':'var(--jade)';
+        const note=d.t?`target ${d.t}%`:'ref';
+        return row(d.n, d.a+'%', d.over?`⚠ Vượt (${note})`:note, col);
+      }).join('')}
+      <div style="margin-top:10px;padding:10px 12px;background:rgba(255,176,32,.06);
+        border-radius:10px;border:1px solid rgba(255,176,32,.14);">
+        <div style="font-family:var(--mono);font-size:8px;color:var(--amber);margin-bottom:4px;">PHÂN TÍCH</div>
+        <div style="font-size:11px;color:var(--t2);line-height:1.7;">
+          Nắp 160ml 1.35% — vượt, line vặn nắp chưa hoàn thiện, nhà thầu đang tìm phương án.
+          GV Cháo 0.30% vs target 0.20% — vượt 50%. Màng cháo gói và ngũ cốc đạt tốt.
+        </div>
+      </div>
+    </div>`;
+
+  // ── Hao hụt NL body ──────────────────────────────────
+  const nlBody = `
+    <div style="padding-top:10px;">
+      ${NL_DATA.map(d => {
+        const note=d.t?`target ${d.t}%`:'không có target';
+        return row(d.n, d.a+'%', note, 'var(--jade)');
+      }).join('')}
+      <div style="margin-top:10px;padding:10px 12px;background:rgba(0,229,168,.06);
+        border-radius:10px;border:1px solid rgba(0,229,168,.14);">
+        <div style="font-family:var(--mono);font-size:8px;color:var(--jade);margin-bottom:4px;">KẾT QUẢ</div>
+        <div style="font-size:11px;color:var(--t2);line-height:1.7;">
+          Tất cả 9 nguyên liệu đạt hoặc không có target. Gạo cháo 0.37% &lt; target 0.40%.
+          Vảy NC 0.15% &lt; target 0.25%. Bột NC 0.14% &lt; target 0.25%. Xuất sắc.
+        </div>
+      </div>
+    </div>`;
+
+  // ── Hao hụt TP body ──────────────────────────────────
+  const tpBody = `
+    <div style="padding-top:10px;">
+      ${TP_DATA.map(d => {
+        const neg=d.v<0;
+        return row(d.n,
+          `${d.v>0?'+':''}${d.v}%`,
+          neg?'← SX thừa · đối soát kho':'Thiếu hụt → kiểm tra',
+          neg?'var(--jade)':'var(--red)');
+      }).join('')}
+      <div style="margin-top:10px;padding:10px 12px;background:rgba(255,176,32,.06);
+        border-radius:10px;border:1px solid rgba(255,176,32,.14);">
+        <div style="font-family:var(--mono);font-size:8px;color:var(--amber);margin-bottom:4px;">LƯU Ý</div>
+        <div style="font-size:11px;color:var(--t2);line-height:1.7;">
+          Âm = SX thừa so với lệnh (cần đối soát tồn kho). Dương = thiếu hụt so với lệnh.
+          Lọ 70ml −3.51% và Gia vị −3.29% cần xác minh số liệu kho.
+        </div>
+      </div>
+    </div>`;
+
+  // ── Sản lượng body ───────────────────────────────────
+  const total = VOL_DATA.reduce((s,d)=>s+d.v,0);
+  const slBody = `
+    <div style="padding-top:10px;">
+      ${VOL_DATA.map(d =>
+        row(d.l,
+          `${(d.v/1e6).toFixed(2)}M ${d.d}`,
+          `${(d.v/total*100).toFixed(1)}% tổng`,
+          'var(--text)')
+      ).join('')}
+    </div>`;
+
+  // ── Sự cố body ───────────────────────────────────────
+  const scBody = `
+    <div style="padding-top:10px;">
+      ${[
+        {date:'26/01', sp:'Ngũ Cốc 5 Đậu', vd:'Thiếu premix — 19 thùng TP', xl:'BGĐ duyệt xuất', ok:true},
+        {date:'28/01', sp:'Sữa Đậu Đỏ',    vd:'Bơm dư nước 1 mẻ',           xl:'Chia đều 2 mẻ',  ok:true},
+        {date:'04/02', sp:'Sữa 9 Hạt',      vd:'Trộn dư 1 túi premix',       xl:'Đã xử lý',       ok:true},
+        {date:'03/03', sp:'Sữa Bắp',        vd:'Mẻ 3 bị tủa — rework 600 lon',xl:'Hoàn thành',    ok:true},
+        {date:'19/03', sp:'Ngũ Cốc Ăn Kiêng',vd:'🚨 Nhầm Tribasic Phosphate',xl:'Đang HOLD — chờ BGĐ',ok:false},
+        {date:'26/03', sp:'Sữa Gạo Rang / 9 Hạt',vd:'⚠ Nhiễm chéo 28 phút',xl:'Rework một phần',ok:false},
+      ].map(s => `
+        <div style="display:grid;grid-template-columns:52px 1fr;gap:10px;padding:9px 0;
+          border-bottom:1px solid rgba(0,229,168,.07);">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--t3);padding-top:2px;">${s.date}</div>
+          <div>
+            <div style="font-size:12px;font-weight:700;color:${s.ok?'var(--text)':'var(--red)'};margin-bottom:2px;">${s.sp}</div>
+            <div style="font-size:11px;color:var(--t2);">${s.vd}</div>
+            <div style="font-family:var(--mono);font-size:8.5px;color:${s.ok?'var(--jade)':'var(--amber)'};margin-top:3px;">→ ${s.xl}</div>
+          </div>
+        </div>`).join('')}
+    </div>`;
+
+  // ── Khiếu nại body ───────────────────────────────────
+  const knBody = `
+    <div style="padding-top:10px;">
+      ${[
+        {date:'08/01', sp:'Hộp Gia Vị',      vd:'Sụp lót hộp',              kq:'Thiết kế lót chưa đủ cứng', lvl:'🟡 TB'},
+        {date:'17/01', sp:'Yến lọ 70ml',      vd:'Thiếu túi xách',           kq:'Đã gửi bù cho KH',          lvl:'🟢 Nhẹ'},
+        {date:'27/02', sp:'Yến ĐTGC',         vd:'🐛 Côn trùng',             kq:'Lọ thủy tinh khó KS',       lvl:'🔴 Nặng'},
+        {date:'28/02', sp:'Yến ĐT 160ml',     vd:'🐛 Côn trùng + tạp chất', kq:'Bay vào khi chiết rót',      lvl:'🔴 Nặng'},
+        {date:'03/03', sp:'Yến GC Bnest',     vd:'SP bị chua',               kq:'Mẫu lưu không bị chua',     lvl:'🟡 Theo dõi'},
+      ].map(s => `
+        <div style="display:grid;grid-template-columns:52px 1fr;gap:10px;padding:9px 0;
+          border-bottom:1px solid rgba(0,229,168,.07);">
+          <div style="font-family:var(--mono);font-size:9px;color:var(--t3);padding-top:2px;">${s.date}</div>
+          <div>
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:2px;">
+              <span style="font-size:12px;font-weight:700;color:var(--text);">${s.sp}</span>
+              <span style="font-family:var(--mono);font-size:8px;">${s.lvl}</span>
+            </div>
+            <div style="font-size:11px;color:var(--t2);">${s.vd}</div>
+            <div style="font-family:var(--mono);font-size:8.5px;color:var(--t3);margin-top:3px;">→ ${s.kq}</div>
+          </div>
+        </div>`).join('')}
+    </div>`;
+
+  // ── RENDER ALL ───────────────────────────────────────
+  el.innerHTML = `
+    <!-- HEADER -->
+    <div style="padding:20px 0 16px;border-bottom:1px solid var(--bd);margin-bottom:4px;">
+      <div style="font-family:var(--mono);font-size:7.5px;color:var(--jade);
+        letter-spacing:.28em;text-transform:uppercase;margin-bottom:8px;">
+        BÁO CÁO CHI TIẾT · Q1/2026 · LIFES FOOD · TÂY NINH
+      </div>
+      <div style="font-family:var(--head);font-size:clamp(22px,6vw,32px);font-weight:800;
+        color:var(--text);letter-spacing:-.02em;line-height:1.1;margin-bottom:6px;">
+        Tổng Kết Quý 1<br>
+        <span style="color:var(--jade);">Nhà Máy Lifes Food</span>
+      </div>
+      <div style="font-size:12px;color:var(--t2);">Người lập: <b style="color:var(--text);">Nguyễn Văn Hải</b> · Giám Đốc Nhà Máy · 03/2026</div>
+    </div>
+
+    <!-- TÓM TẮT ĐIỀU HÀNH -->
+    ${secHead('Tóm Tắt Điều Hành', '4 điểm chính')}
+    <div style="background:var(--s2);border:1px solid var(--bd);border-radius:14px;padding:16px 18px;margin-bottom:6px;">
+      <div style="font-size:12.5px;color:var(--t2);line-height:1.85;">
+        Q1/2026, nhà máy sản xuất <b style="color:var(--jade);">13.94 triệu đơn vị</b> với
+        <b style="color:var(--text);">100 SKU</b> trải trên 9 nhóm hàng, vận hành
+        <b style="color:var(--text);">1 ca/ngày</b> và tăng ca theo đơn hàng.
+        OEE trung bình toàn nhà máy đạt <b style="color:var(--amber);">78%</b>,
+        thấp hơn target 83% khoảng <b style="color:var(--red);">5 điểm</b>.
+        Nguyên vật liệu kiểm soát tốt với tỷ lệ đạt chuẩn <b style="color:var(--jade);">99.66%</b>.
+        Ghi nhận <b style="color:var(--red);">6 sự cố chất lượng</b>, trong đó 2 nghiêm trọng —
+        1 lô hàng đang <b style="color:var(--red);">HOLD</b> chờ quyết định BGĐ.
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px;">
+      <div style="background:rgba(0,229,168,.06);border:1px solid rgba(0,229,168,.18);border-radius:12px;padding:12px 14px;">
+        <div style="font-family:var(--mono);font-size:7px;color:var(--jade);letter-spacing:.15em;margin-bottom:6px;">ĐIỂM MẠNH</div>
+        <div style="font-size:11px;color:var(--t2);line-height:1.7;">
+          ✓ GV Xốt OEE 90% — dẫn đầu<br>
+          ✓ NVL đạt chuẩn 99.66%<br>
+          ✓ Hao hụt NL toàn bộ dưới target<br>
+          ✓ Màng ngũ cốc 0.86% vs target 1.5%
+        </div>
+      </div>
+      <div style="background:rgba(255,45,85,.05);border:1px solid rgba(255,45,85,.18);border-radius:12px;padding:12px 14px;">
+        <div style="font-family:var(--mono);font-size:7px;color:var(--red);letter-spacing:.15em;margin-bottom:6px;">CẦN CẢI THIỆN</div>
+        <div style="font-size:11px;color:var(--t2);line-height:1.7;">
+          ✗ GV Lọ OEE 59% — thấp nhất<br>
+          ✗ 6/8 nhóm vượt manhour target<br>
+          ✗ Nắp 160ml hao hụt 1.35%<br>
+          ✗ Sự cố côn trùng lặp lại T2
+        </div>
+      </div>
+    </div>
+
+    <!-- SẢN LƯỢNG -->
+    ${secHead('Sản Lượng Q1', '9 nhóm · 13.94M sp')}
+    ${expandCard('sl','Sản Lượng Theo Nhóm Bao Bì','13.94M sp','var(--jade)','rgba(0,229,168,.1)',slBody)}
+
+    <!-- OEE -->
+    ${secHead('Hiệu Suất OEE', 'Target 83% · TB 78%', 'var(--amber)')}
+    ${expandCard('oee','OEE Từng Nhóm Sản Phẩm — 12 nhóm','TB 78%','var(--amber)','rgba(255,176,32,.12)',oeeBody)}
+
+    <!-- MANHOUR -->
+    ${secHead('Manhour', '6/8 nhóm vượt target', 'var(--red)')}
+    ${expandCard('mh','Manhour Thực Tế vs Target (giờ/1000 sp)','6/8 vượt','var(--red)','rgba(255,45,85,.1)',mhBody)}
+
+    <!-- HAO HỤT -->
+    ${secHead('Hao Hụt', 'Bao Bì · NL · Thành Phẩm', 'var(--amber)')}
+    ${expandCard('bb','Hao Hụt Bao Bì','2 vượt target','var(--red)','rgba(255,45,85,.1)',bbBody)}
+    ${expandCard('nl','Hao Hụt Nguyên Liệu','✓ Tất cả đạt','var(--jade)','rgba(0,229,168,.1)',nlBody)}
+    ${expandCard('tp','Hao Hụt Thành Phẩm — Đối soát kho','Cần xem xét','var(--amber)','rgba(255,176,32,.1)',tpBody)}
+
+    <!-- SỰ CỐ & KHIẾU NẠI -->
+    ${secHead('Sự Cố & Khiếu Nại', 'Q1 · 6 sự cố · 5 phản ánh', 'var(--red)')}
+    ${expandCard('sc','Sự Cố Chất Lượng Tại Nhà Máy','6 sự cố · 1 HOLD','var(--red)','rgba(255,45,85,.1)',scBody)}
+    ${expandCard('kn','Phản Ánh Khách Hàng','5 trường hợp','var(--violet)','rgba(168,85,247,.1)',knBody)}
+
+    <div style="margin-top:20px;padding:14px 16px;background:var(--s2);border:1px solid var(--bd);
+      border-radius:12px;font-family:var(--mono);font-size:8px;color:var(--t3);text-align:center;
+      letter-spacing:.08em;">
+      BÁO CÁO NỘI BỘ · LIFES FOOD · Q1/2026 · NGUYỄN VĂN HẢI — GĐ NHÀ MÁY
+    </div>`;
+}
+
+// toggle expand/collapse
+window.toggleDetail = function(id){
+  const body = $('body-'+id), arr = $('arr-'+id);
+  if(!body) return;
+  const open = body.style.display === 'block';
+  body.style.display = open ? 'none' : 'block';
+  if(arr) arr.style.transform = open ? '' : 'rotate(180deg)';
+};
+
+
+
+let wfBuilt = false;
+function buildWorkflows() {
+  if (wfBuilt) return; wfBuilt = true;
+  buildCoreValCards();
+  buildFlagshipCards();
+  buildFlow1();
+  buildFlow2();
+  buildWFCharts();
+  buildBCG();
+  buildOrgChart();
+  setTimeout(() => { const b = $('kaizen-bar'); if (b) b.style.width = '100%'; }, 700);
+}
+
+// ─── FLOW CHART RENDERER ─────────────────────────────────
+function renderFlow(elId, steps) {
+  const el = $(elId); if (!el) return;
+  const nodeW = 88, nodeH = 56, gap = 26, arrowLen = 20;
+  const n = steps.length;
+  const totalW = n * nodeW + (n-1) * (gap + arrowLen);
+  const H = nodeH + 32;
+  let s = `<svg viewBox="0 0 ${totalW} ${H}" style="min-width:${totalW}px;width:100%;display:block;overflow:visible;">
+  <defs>
+    <marker id="arr-${elId}" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+      <path d="M0,0 L7,3.5 L0,7 Z" fill="rgba(0,229,168,.65)"/>
+    </marker>
+    <filter id="gf-${elId}"><feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>`;
+  steps.forEach((step, i) => {
+    const x = i * (nodeW + gap + arrowLen);
+    const cy = H / 2 - 6;
+    if (i > 0) {
+      s += `<line x1="${x - gap - arrowLen + 2}" y1="${cy}" x2="${x - 3}" y2="${cy}"
+        stroke="rgba(0,229,168,.55)" stroke-width="1.5" marker-end="url(#arr-${elId})"/>`;
+    }
+    const isKey = step.key;
+    s += `<rect x="${x}" y="${cy - nodeH/2}" width="${nodeW}" height="${nodeH}" rx="12"
+      fill="${isKey ? 'rgba(0,229,168,.16)' : 'rgba(18,42,34,.9)'}"
+      stroke="${isKey ? 'rgba(0,229,168,.65)' : 'rgba(30,74,56,.7)'}" stroke-width="${isKey ? 1.5 : 1}"
+      ${isKey ? `filter="url(#gf-${elId})"` : ''}/>`;
+    s += `<text x="${x + nodeW/2}" y="${cy - 7}" text-anchor="middle" font-size="17">${step.icon}</text>`;
+    const words = step.name.split(' ');
+    if (words.length <= 2) {
+      s += `<text x="${x + nodeW/2}" y="${cy + 8}" text-anchor="middle"
+        font-family="Syne,sans-serif" font-size="10" font-weight="700"
+        fill="${isKey ? '#00ffbb' : '#f0faf4'}">${step.name}</text>`;
+    } else {
+      const mid = Math.ceil(words.length / 2);
+      [words.slice(0,mid).join(' '), words.slice(mid).join(' ')].forEach((line, li) => {
+        s += `<text x="${x + nodeW/2}" y="${cy + (li===0 ? 3 : 15)}" text-anchor="middle"
+          font-family="Syne,sans-serif" font-size="9.5" font-weight="700"
+          fill="${isKey ? '#00ffbb' : '#f0faf4'}">${line}</text>`;
+      });
+    }
+    if (step.sub) {
+      s += `<text x="${x + nodeW/2}" y="${H - 1}" text-anchor="middle"
+        font-family="IBM Plex Mono,monospace" font-size="7.5" fill="rgba(141,207,184,.6)">${step.sub}</text>`;
+    }
+  });
+  s += '</svg>';
+  el.innerHTML = s;
+}
+function buildFlow1() {
+  renderFlow('flow1', [
+    {icon:'🍲', name:'Nấu',        sub:'Nồi áp lực', key:false},
+    {icon:'♨️',  name:'Hấp Retort', sub:'Tiệt trùng', key:true},
+    {icon:'🫙',  name:'Chiết Rót',  sub:'Tự động',    key:true},
+    {icon:'🏷️',  name:'Dán Nhãn',  sub:'Auto',       key:false},
+    {icon:'📅',  name:'Date Code', sub:'Laser/Ink',  key:false},
+    {icon:'🌡️',  name:'Màng Co',   sub:'Shrink',     key:false},
+    {icon:'📦',  name:'Đóng TP',   sub:'Carton',     key:true},
+  ]);
+}
+function buildFlow2() {
+  renderFlow('flow2', [
+    {icon:'🔥', name:'Rang',       sub:'Drum roast', key:false},
+    {icon:'⚙️',  name:'Xay Nghiền',sub:'Grinder',    key:true},
+    {icon:'🔀', name:'Phối Trộn', sub:'Mixer',       key:true},
+    {icon:'🫙',  name:'Chiết Rót', sub:'FFS',         key:true},
+    {icon:'📦', name:'Đóng Gói',  sub:'Pack+label',  key:false},
+  ]);
+}
+
+// ─── DONUT + TREND ────────────────────────────────────────
+function buildWFCharts() {
+  const dSvg=$('wfDonutSvg'), dLeg=$('wfDonutLegend');
+  if (dSvg) {
+    const cx=90,cy=90,r=64,sw=22,circ=2*Math.PI*r,total=VOL_DATA.reduce((s,d)=>s+d.v,0);
+    let sv='<defs><filter id="wfdg"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>';
+    sv+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="rgba(16,38,32,.9)" stroke-width="${sw}"/>`;
+    let off=circ*.25;
+    VOL_DATA.forEach((d,i)=>{
+      const dash=d.v/total*circ;
+      sv+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="none" stroke="${d.c}" stroke-width="${sw}" stroke-dasharray="${Math.max(0,dash-2)} ${circ-Math.max(0,dash-2)}" stroke-dashoffset="${-off+circ*.25}" transform="rotate(-90 ${cx} ${cy})" stroke-linecap="butt" ${i===0?'filter="url(#wfdg)"':''}/>`;
+      off-=dash;
+    });
+    sv+=`<text x="${cx}" y="${cy-7}" text-anchor="middle" font-family="Syne,sans-serif" font-size="21" font-weight="800" fill="#00ffbb">13.9M</text>`;
+    sv+=`<text x="${cx}" y="${cy+9}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="8" fill="#8dcfb8">sp · 100 SKU</text>`;
+    sv+=`<text x="${cx}" y="${cy+21}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="7" fill="#3a7a62">Q1 · 1 ca/ngày</text>`;
+    dSvg.innerHTML=sv;
+  }
+  if (dLeg) {
+    const total=VOL_DATA.reduce((s,d)=>s+d.v,0);
+    dLeg.innerHTML=VOL_DATA.map(d=>`<div style="display:flex;align-items:center;gap:7px;margin-bottom:5px;"><div style="width:9px;height:9px;border-radius:50%;background:${d.c};flex-shrink:0;box-shadow:0 0 5px ${d.c}88;"></div><span style="font-family:var(--mono);font-size:8px;color:var(--t2);flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${d.l}</span><span style="font-family:var(--mono);font-size:8px;font-weight:700;color:${d.c};">${(d.v/1e6).toFixed(2)}M</span><span style="font-family:var(--mono);font-size:7px;color:var(--t3);min-width:30px;text-align:right;">${(d.v/total*100).toFixed(1)}%</span></div>`).join('');
+  }
+  const tSvg=$('wfTrendSvg');
+  if(tSvg){
+    const W=320,H=130,pad={l:30,r:10,t:18,b:4},iw=W-pad.l-pad.r,ih=H-pad.t-pad.b;
+    const series=[{c:'#00e5a8',sh:'rgba(0,229,168,.4)',v:[2198000,2407000,2522000]},{c:'#00d4ff',sh:'rgba(0,212,255,.3)',v:[1200000,1380000,1535000]},{c:'#ffb020',sh:'rgba(255,176,32,.3)',v:[3660000,3810000,4070000]}];
+    const maxV=4600000,xs=[pad.l,pad.l+iw*.5,pad.l+iw];
+    let s='<defs>';
+    series.forEach((sr,si)=>{s+=`<linearGradient id="wtg${si}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${sr.c}" stop-opacity=".38"/><stop offset="100%" stop-color="${sr.c}" stop-opacity=".02"/></linearGradient>`;});
+    s+='</defs>';
+    [0,.25,.5,.75,1].forEach(g=>{const y=pad.t+ih*(1-g);s+=`<line x1="${pad.l}" y1="${y}" x2="${W-pad.r}" y2="${y}" stroke="rgba(0,229,168,.06)" stroke-width="1" stroke-dasharray="3 3"/>`;if(g>0)s+=`<text x="${pad.l-3}" y="${y+3}" text-anchor="end" font-family="IBM Plex Mono,monospace" font-size="7" fill="#3a7a62">${(maxV*g/1e6).toFixed(1)}M</text>`;});
+    series.forEach((sr,si)=>{
+      const ys=sr.v.map(v=>pad.t+ih*(1-v/maxV)),c1x=(xs[0]+xs[1])/2,c2x=(xs[1]+xs[2])/2;
+      s+=`<path d="M ${xs[0]},${pad.t+ih} L ${xs[0]},${ys[0]} C ${c1x},${ys[0]} ${c1x},${ys[1]} ${xs[1]},${ys[1]} C ${c2x},${ys[1]} ${c2x},${ys[2]} ${xs[2]},${ys[2]} L ${xs[2]},${pad.t+ih} Z" fill="url(#wtg${si})"/>`;
+      s+=`<path d="M ${xs[0]},${ys[0]} C ${c1x},${ys[0]} ${c1x},${ys[1]} ${xs[1]},${ys[1]} C ${c2x},${ys[1]} ${c2x},${ys[2]} ${xs[2]},${ys[2]}" fill="none" stroke="${sr.c}" stroke-width="2.5" stroke-linecap="round" filter="drop-shadow(0 0 3px ${sr.sh})"/>`;
+      ys.forEach((y,i)=>{s+=`<circle cx="${xs[i]}" cy="${y}" r="4.5" fill="${sr.c}" stroke="var(--bg)" stroke-width="2" filter="drop-shadow(0 0 4px ${sr.sh})"/>`;if(si===0)s+=`<text x="${xs[i]}" y="${y-10}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="8" fill="${sr.c}" font-weight="600">${(sr.v[i]/1e6).toFixed(2)}M</text>`;});
+    });
+    tSvg.innerHTML=s;
+  }
+}
+
+// ─── BCG MATRIX ───────────────────────────────────────────
+function buildBCG() {
+  const bcg=$('bcgMatrix'); if(!bcg) return;
+  const W=320,H=260,pad={l:40,r:16,t:16,b:36},iw=W-pad.l-pad.r,ih=H-pad.t-pad.b;
+  const qw=iw/2,qh=ih/2;
+  let s='';
+  [{x:pad.l,y:pad.t,fill:'rgba(0,229,168,.05)',lbl:'★ NGÔI SAO',sub:'SL cao · Tăng trưởng cao'},{x:pad.l+qw,y:pad.t,fill:'rgba(0,212,255,.04)',lbl:'? DẤU HỎI',sub:'SL thấp · Tiềm năng cao'},{x:pad.l,y:pad.t+qh,fill:'rgba(77,158,255,.04)',lbl:'🐄 BÒ SỮA',sub:'SL cao · Ổn định'},{x:pad.l+qw,y:pad.t+qh,fill:'rgba(255,45,85,.03)',lbl:'🐕 CON CHÓ',sub:'SL thấp · Xem lại'}].forEach(q=>{
+    s+=`<rect x="${q.x}" y="${q.y}" width="${qw}" height="${qh}" fill="${q.fill}" stroke="rgba(0,229,168,.08)" stroke-width="1"/>`;
+    s+=`<text x="${q.x+8}" y="${q.y+15}" font-family="Syne,sans-serif" font-size="9" font-weight="800" fill="rgba(255,255,255,.45)">${q.lbl}</text>`;
+    s+=`<text x="${q.x+8}" y="${q.y+27}" font-family="IBM Plex Mono,monospace" font-size="7" fill="rgba(255,255,255,.22)">${q.sub}</text>`;
+  });
+  const cx=pad.l+iw/2;
+  s+=`<line x1="${pad.l}" y1="${pad.t+qh}" x2="${W-pad.r}" y2="${pad.t+qh}" stroke="rgba(0,229,168,.25)" stroke-width="1" stroke-dasharray="4 3"/>`;
+  s+=`<line x1="${cx}" y1="${pad.t}" x2="${cx}" y2="${H-pad.b}" stroke="rgba(0,229,168,.25)" stroke-width="1" stroke-dasharray="4 3"/>`;
+  s+=`<text x="${pad.l-8}" y="${pad.t+qh/2+4}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="7.5" fill="#8dcfb8" transform="rotate(-90,${pad.l-8},${pad.t+qh/2+4})">Tăng trưởng</text>`;
+  s+=`<text x="${pad.l+iw/2}" y="${H-1}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="7.5" fill="#8dcfb8">Sản lượng</text>`;
+  [{x:.72,y:.22,r:19,c:'#00e5a8',l:'GV Xốt',sub:'39% SL',glow:true},{x:.62,y:.64,r:13,c:'#00d4ff',l:'Yến Lon',sub:'28%'},{x:.52,y:.72,r:11,c:'#ffb020',l:'Ngũ Cốc',sub:'12%'},{x:.78,y:.30,r:7,c:'#ffd166',l:'Cháo Tươi',sub:'R&D↑'},{x:.84,y:.36,r:5,c:'#7eb8f0',l:'Beauty',sub:'Mới'},{x:.28,y:.76,r:8,c:'#ff6b7a',l:'Cháo KHÔ',sub:'Xem lại'},{x:.70,y:.38,r:8,c:'#a855f7',l:'Yến Hủ',sub:'Premium'}].forEach(b=>{
+    const bx=pad.l+b.x*iw,by=pad.t+b.y*ih;
+    if(b.glow){s+=`<circle cx="${bx}" cy="${by}" r="${b.r+8}" fill="${b.c}" opacity=".07"/>`;s+=`<circle cx="${bx}" cy="${by}" r="${b.r+4}" fill="${b.c}" opacity=".12"/>`;}
+    s+=`<circle cx="${bx}" cy="${by}" r="${b.r}" fill="${b.c}" opacity="${b.glow?.88:.65}" stroke="${b.c}" stroke-width="1.5" filter="${b.glow?'drop-shadow(0 0 8px '+b.c+'88)':'none'}"/>`;
+    s+=`<text x="${bx}" y="${by+3.5}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="${b.r>9?8:7}" font-weight="600" fill="#0d1f1a">${b.l}</text>`;
+    if(b.r>9)s+=`<text x="${bx}" y="${by+b.r+12}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="7" fill="${b.c}cc">${b.sub}</text>`;
+  });
+  bcg.innerHTML=s;
+}
+
+// ─── CORE VALUE CARDS ─────────────────────────────────────
+function buildCoreValCards() {
+  const el=$('coreValCards'); if(!el) return;
+  const vals=[
+    {num:'01',icon:'🛡️',col:'#00e5a8',glow:'rgba(0,229,168,.10)',
+     title:'An Toàn Thực Phẩm Là Ưu Tiên Số 1',
+     body:'Không có sản phẩm nào rời nhà máy khi chưa đạt chuẩn an toàn. QC kiểm tra 100% — không bỏ bước dù áp lực tiến độ.',
+     metrics:[{k:'Defect Rate',v:'<1%',sub:'vs limit 1.5%'},{k:'QC Pass',v:'100%',sub:'Mỗi lô hàng'}],
+     quote:'"Một lô hàng bị trả về làm hỏng cả mối quan hệ."'},
+    {num:'02',icon:'📈',col:'#ffb020',glow:'rgba(255,176,32,.09)',
+     title:'Cải Tiến Liên Tục — Không Đứng Yên',
+     body:'OEE 78% là kết quả Q1. Mục tiêu Q2 là 83%. Mỗi tháng tìm một điểm cải tiến nhỏ: manhour, hao hụt, CIP. Tích lũy thành đột phá.',
+     metrics:[{k:'OEE Q1',v:'78%',sub:'Target 83% Q2'},{k:'Action Plan',v:'8',sub:'Dự án Q2'}],
+     quote:'"Kaizen không cần ngân sách lớn — cần thói quen."'},
+  ];
+  el.innerHTML=vals.map(v=>`
+    <div style="position:relative;overflow:hidden;border-radius:20px;
+      padding:20px 18px 18px;background:linear-gradient(145deg,${v.glow},var(--s2) 68%);
+      border:1px solid ${v.col}26;transition:transform .22s,box-shadow .22s;"
+      onmouseenter="this.style.transform='translateY(-2px)';this.style.boxShadow='0 8px 32px ${v.col}18'"
+      onmouseleave="this.style.transform='';this.style.boxShadow=''">
+      <div style="position:absolute;top:0;left:0;right:0;height:2px;
+        background:linear-gradient(90deg,${v.col},${v.col}44,transparent);"></div>
+      <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:12px;">
+        <div style="font-family:var(--head);font-size:54px;font-weight:800;
+          color:${v.col};opacity:.11;line-height:1;letter-spacing:-.04em;margin-top:-6px;">${v.num}</div>
+        <div style="width:46px;height:46px;border-radius:14px;background:${v.col}12;
+          border:1px solid ${v.col}26;display:flex;align-items:center;justify-content:center;font-size:22px;">${v.icon}</div>
+      </div>
+      <div style="font-family:var(--head);font-size:clamp(14px,4vw,17px);font-weight:800;
+        color:${v.col};line-height:1.2;margin-bottom:9px;margin-top:-28px;">${v.title}</div>
+      <div style="font-size:12px;color:var(--t2);line-height:1.65;margin-bottom:13px;">${v.body}</div>
+      <div style="display:flex;gap:10px;margin-bottom:13px;">
+        ${v.metrics.map(m=>`<div style="flex:1;background:${v.col}0d;border:1px solid ${v.col}1e;border-radius:12px;padding:10px 10px 8px;text-align:center;">
+          <div style="font-family:var(--head);font-size:20px;font-weight:800;color:${v.col};line-height:1;margin-bottom:2px;">${m.v}</div>
+          <div style="font-family:var(--mono);font-size:7.5px;color:var(--t3);">${m.k}</div>
+          <div style="font-family:var(--mono);font-size:7px;color:${v.col};opacity:.7;margin-top:1px;">${m.sub}</div>
+        </div>`).join('')}
+      </div>
+      <div style="border-left:2px solid ${v.col}42;padding-left:12px;
+        font-family:var(--mono);font-size:9.5px;font-style:italic;
+        color:${v.col};opacity:.8;line-height:1.55;">${v.quote}</div>
+    </div>`).join('');
+}
+
+// ─── FLAGSHIP CARDS ───────────────────────────────────────
+function buildFlagshipCards() {
+  const el=$('flagshipGrid'); if(!el) return;
+  const FLAGS=[
+    {icon:'🫙',name:'Yến Hủ',brand:'LifesNest · Lọ 70ml / 100ml / 160ml',col:'#00e5a8',col2:'#00ffbb',
+     stats:[{k:'SKU',v:'25'},{k:'SL Q1',v:'2.17M'},{k:'OEE',v:'79%'}],oee:79,target:83,
+     desc:'Dòng cao cấp — yến sào thiên nhiên 200mg–1000mg. Đóng hộp lễ, bundle bán lẻ, KidsGrow và BeautyNest.',badge:'Premium'},
+    {icon:'🥫',name:'Yến Lon',brand:'LifesNest · Lon 190ml / 240ml',col:'#00d4ff',col2:'#7ef4ff',
+     stats:[{k:'SKU',v:'17'},{k:'SL Q1',v:'4.15M'},{k:'OEE',v:'76%'}],oee:76,target:83,
+     desc:'Sản lượng lớn nhất nhà máy. Lon 190ml + 240ml phủ kênh FMCG, siêu thị toàn quốc. Vol #1 Q1.',badge:'Vol #1'},
+    {icon:'🥛',name:'Sữa Lon',brand:'Lifes Food · Sữa gạo rang · Sữa hạt',col:'#ffb020',col2:'#ffd166',
+     stats:[{k:'SKU',v:'8'},{k:'SL Q1',v:'650K+'},{k:'OEE',v:'77%'}],oee:77,target:83,
+     desc:'Dòng thực vật — sữa gạo rang, sữa 9 loại hạt, sữa bắp non. Xu hướng healthy tăng mạnh.',badge:'Tăng trưởng'},
+    {icon:'🌾',name:'Ngũ Cốc',brand:'NutriLifes · 28 bags/box · Gạo lứt',col:'#a855f7',col2:'#c984ff',
+     stats:[{k:'SKU',v:'15'},{k:'SL Q1',v:'1.85M+'},{k:'OEE',v:'79%'}],oee:79,target:83,
+     desc:'Hao hụt xuất sắc: màng 0.86%/1.5%, vảy 0.15%/0.25% — đều dưới target. Best QC nhà máy.',badge:'Best QC'},
+  ];
+  el.innerHTML=FLAGS.map((f,i)=>{
+    const ok=f.oee>=f.target,oeeCol=ok?f.col:'var(--amber)';
+    return `<div style="position:relative;overflow:hidden;border-radius:20px;
+      background:linear-gradient(135deg,${f.col}0f 0%,var(--s2) 50%,${f.col}07 100%);
+      border-left:3px solid ${f.col};border-top:1px solid ${f.col}28;
+      border-right:1px solid ${f.col}14;border-bottom:1px solid ${f.col}14;
+      transition:transform .22s,box-shadow .22s;animation:fadeIn .4s ${i*.1}s both;"
+      onmouseenter="this.style.transform='translateX(5px)';this.style.boxShadow='0 6px 28px ${f.col}22'"
+      onmouseleave="this.style.transform='';this.style.boxShadow=''">
+      <div style="position:absolute;top:14px;right:14px;font-family:var(--mono);font-size:8px;
+        font-weight:700;color:${f.col};background:${f.col}18;border:1px solid ${f.col}30;
+        padding:3px 11px;border-radius:20px;">${f.badge}</div>
+      <div style="display:flex;align-items:flex-start;gap:14px;padding:18px 16px 16px 16px;">
+        <div style="width:58px;height:58px;border-radius:16px;flex-shrink:0;
+          background:${f.col}12;border:1px solid ${f.col}24;
+          display:flex;align-items:center;justify-content:center;font-size:30px;
+          box-shadow:0 0 18px ${f.col}14;">${f.icon}</div>
+        <div style="flex:1;min-width:0;padding-right:50px;">
+          <div style="font-family:var(--head);font-size:20px;font-weight:800;
+            color:${f.col2};letter-spacing:-.02em;line-height:1;margin-bottom:3px;">${f.name}</div>
+          <div style="font-family:var(--mono);font-size:7.5px;color:var(--t3);margin-bottom:10px;">${f.brand}</div>
+          <div style="display:flex;gap:5px;margin-bottom:10px;">
+            ${f.stats.map(s=>`<div style="background:${f.col}0d;border:1px solid ${f.col}1c;
+              border-radius:9px;padding:6px 8px 5px;text-align:center;flex:1;">
+              <div style="font-family:var(--head);font-size:16px;font-weight:800;color:${f.col};line-height:1;">${s.v}</div>
+              <div style="font-family:var(--mono);font-size:7px;color:var(--t3);margin-top:1px;">${s.k}</div>
+            </div>`).join('')}
+          </div>
+          <div style="font-size:10.5px;color:var(--t2);line-height:1.6;margin-bottom:10px;">${f.desc}</div>
+          <div style="display:flex;justify-content:space-between;font-family:var(--mono);
+            font-size:7.5px;margin-bottom:4px;">
+            <span style="color:var(--t3);">OEE</span>
+            <span style="color:${oeeCol};">${f.oee}%<span style="opacity:.4;margin:0 3px;">/</span>${f.target}%
+              <span style="margin-left:4px;">${ok?'✓':'↑'}</span></span>
+          </div>
+          <div style="position:relative;height:5px;background:rgba(22,54,40,.8);border-radius:3px;overflow:visible;">
+            <div style="height:100%;width:0;border-radius:3px;background:${oeeCol};
+              box-shadow:0 0 10px ${oeeCol}55;
+              transition:width 1.5s ${i*.12+.2}s cubic-bezier(.34,1.2,.64,1);" data-w="${f.oee}"></div>
+            <div style="position:absolute;top:-3px;bottom:-3px;left:${f.target}%;
+              width:2px;background:rgba(255,176,32,.7);border-radius:1px;"></div>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  setTimeout(()=>animBars(el),80);
+}
+
+
+
+
+
+
+// ════════════════════════════════════════════════════════
+//  ORG CHART
+// ════════════════════════════════════════════════════════
+function buildOrgChart() {
+  const el = $('orgChart'); if (!el) return;
+  const depts = [
+    { role:'Sản Xuất',  person:'Mr. Hòa',   icon:'🏭', col:'#00e5a8', status:'active', kpi:'OEE 78%' },
+    { role:'Chất Lượng',person:'Mr. Huyền', icon:'🔬', col:'#00d4ff', status:'new',    kpi:'QC · QA' },
+    { role:'Kho Vận',   person:'Mr. Phụng', icon:'📦', col:'#ffb020', status:'new',    kpi:'OTIF 88%' },
+    { role:'Bao Bì',    person:'Ms. Hằng',  icon:'🏷️',  col:'#ff6b7a', status:'active', kpi:'Loss 0.87%' },
+    { role:'Cơ Điện',   person:'Đợi Tuyển', icon:'⚙️',  col:'#a855f7', status:'vacant', kpi:'Đang tuyển' },
+  ];
+  const boxW=100,boxH=96,gap=14,n=depts.length;
+  const totalDeptW=n*boxW+(n-1)*gap;
+  const dirW=180,dirH=62,totalW=Math.max(totalDeptW,dirW+60);
+  const cx=totalW/2,dirX=cx-dirW/2,dirY=6;
+  const trunkY=dirY+dirH+20,deptY=trunkY+22,H=deptY+boxH+14;
+  const dStart=cx-totalDeptW/2;
+  let s=`<svg viewBox="0 0 ${totalW} ${H}" style="min-width:${Math.min(totalW,520)}px;width:100%;display:block;overflow:visible;">
+  <defs>
+    <filter id="gDir"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <filter id="gBox"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>`;
+  s+=`<ellipse cx="${cx}" cy="${dirY+dirH/2+4}" rx="${dirW/2+10}" ry="${dirH/2+10}" fill="rgba(0,229,168,.08)" filter="url(#gDir)"/>`;
+  s+=`<rect x="${dirX}" y="${dirY}" width="${dirW}" height="${dirH}" rx="16" fill="rgba(0,229,168,.16)" stroke="rgba(0,229,168,.75)" stroke-width="2"/>`;
+  s+=`<rect x="${dirX+1}" y="${dirY+1}" width="${dirW-2}" height="3" rx="2" fill="rgba(0,255,187,.6)"/>`;
+  s+=`<text x="${cx}" y="${dirY+20}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="8" letter-spacing="2" fill="rgba(0,255,187,.7)">GIÁM ĐỐC NHÀ MÁY</text>`;
+  s+=`<text x="${cx}" y="${dirY+38}" text-anchor="middle" font-family="Syne,sans-serif" font-size="16" font-weight="800" fill="#00ffbb" filter="url(#gBox)">Nguyễn Văn Hải</text>`;
+  s+=`<text x="${cx}" y="${dirY+54}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="8" fill="rgba(141,207,184,.75)">Lifes Food · Tây Ninh</text>`;
+  const leftEdge=dStart+boxW/2,rightEdge=dStart+(n-1)*(boxW+gap)+boxW/2;
+  s+=`<line x1="${cx}" y1="${dirY+dirH}" x2="${cx}" y2="${trunkY}" stroke="rgba(0,229,168,.5)" stroke-width="1.5"/>`;
+  s+=`<line x1="${leftEdge}" y1="${trunkY}" x2="${rightEdge}" y2="${trunkY}" stroke="rgba(0,229,168,.35)" stroke-width="1.5"/>`;
+  depts.forEach((d,i)=>{
+    const bx=dStart+i*(boxW+gap),bcx=bx+boxW/2;
+    const isNew=d.status==='new',isVacant=d.status==='vacant';
+    s+=`<line x1="${bcx}" y1="${trunkY}" x2="${bcx}" y2="${deptY}" stroke="${d.col}55" stroke-width="1.5"/>`;
+    s+=`<circle cx="${bcx}" cy="${trunkY}" r="3" fill="${d.col}" opacity="0.7"/>`;
+    s+=`<rect x="${bx}" y="${deptY}" width="${boxW}" height="${boxH}" rx="12" fill="${d.col}${isVacant?'0d':'1a'}" stroke="${d.col}" stroke-width="${isVacant?1:1.5}" stroke-dasharray="${isVacant?'5 3':'none'}" filter="${isVacant?'none':'url(#gBox)'}"/>`;
+    if(!isVacant) s+=`<rect x="${bx+2}" y="${deptY+1}" width="${boxW-4}" height="2.5" rx="1.5" fill="${d.col}" opacity="0.85"/>`;
+    s+=`<text x="${bcx}" y="${deptY+16}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="8" letter-spacing="1" fill="${d.col}" opacity="${isVacant?.5:.85}">${d.role.toUpperCase()}</text>`;
+    s+=`<text x="${bcx}" y="${deptY+38}" text-anchor="middle" font-size="20" opacity="${isVacant?.4:1}">${d.icon}</text>`;
+    if(isVacant){
+      s+=`<text x="${bcx}" y="${deptY+58}" text-anchor="middle" font-family="Syne,sans-serif" font-size="11" font-weight="700" fill="${d.col}" opacity=".45" font-style="italic">Đợi Tuyển</text>`;
+    } else {
+      s+=`<text x="${bcx}" y="${deptY+58}" text-anchor="middle" font-family="Syne,sans-serif" font-size="12" font-weight="800" fill="${d.col}">${d.person}</text>`;
+    }
+    if(isNew){
+      const bw=34,bh=14,bxb=bcx-bw/2,byb=deptY+64;
+      s+=`<rect x="${bxb}" y="${byb}" width="${bw}" height="${bh}" rx="7" fill="rgba(0,212,255,.22)" stroke="rgba(0,212,255,.7)" stroke-width="1"/>`;
+      s+=`<text x="${bcx}" y="${byb+10}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="8" font-weight="700" fill="#00d4ff" letter-spacing="1">NEW</text>`;
+    } else if(isVacant){
+      const bw=52,bh=14,bxb=bcx-bw/2,byb=deptY+64;
+      s+=`<rect x="${bxb}" y="${byb}" width="${bw}" height="${bh}" rx="7" fill="rgba(168,85,247,.12)" stroke="rgba(168,85,247,.4)" stroke-width="1" stroke-dasharray="4 2"/>`;
+      s+=`<text x="${bcx}" y="${byb+10}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="8" fill="#a855f7" opacity=".7" letter-spacing="1">TUYỂN</text>`;
+    } else {
+      s+=`<text x="${bcx}" y="${deptY+80}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-size="7.5" font-weight="600" fill="${d.col}" opacity=".65">${d.kpi}</text>`;
+    }
+  });
+  s+='</svg>';
+  el.innerHTML=s;
+}
+
+// ════════════════════════════════════════════════════════
+//  LAYOUT SWITCHER — 2-button panel
+// ════════════════════════════════════════════════════════
+window.applyLayout = function(mode) {
+  const body = document.body;
+  const btnM = document.getElementById('btn-mobile');
+  const btnP = document.getElementById('btn-pc');
+
+  body.classList.remove('force-pc', 'force-mobile');
+
+  const activeStyle = 'background:var(--jade);color:#0d1f1a;box-shadow:0 0 12px rgba(0,229,168,.35);';
+  const idleStyle   = 'background:transparent;color:var(--t3);box-shadow:none;';
+
+  if (mode === 'pc') {
+    body.classList.add('force-pc');
+    if (btnM) btnM.style.cssText += idleStyle;
+    if (btnP) btnP.style.cssText += activeStyle;
+  } else {
+    body.classList.add('force-mobile');
+    if (btnM) btnM.style.cssText += activeStyle;
+    if (btnP) btnP.style.cssText += idleStyle;
+  }
+
+  localStorage.setItem('lf_layout', mode);
+};
+
+// Auto-apply on load
+(function() {
+  const saved   = localStorage.getItem('lf_layout');
+  const isMobile = window.innerWidth < 900;
+  window.applyLayout(saved || (isMobile ? 'mobile' : 'pc'));
+})();
+</script>
+<!-- Floating layout switcher -->
+<div id="layout-switcher" style="
+  position:fixed;top:14px;right:14px;z-index:9999;
+  display:flex;align-items:center;gap:2px;
+  background:rgba(13,31,26,.95);
+  border:1px solid var(--bd2);
+  border-radius:24px;
+  padding:3px;
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  box-shadow:0 4px 20px rgba(0,0,0,.5),0 0 0 1px rgba(0,229,168,.08);">
+
+  <button id="btn-mobile" onclick="applyLayout('mobile')"
+    title="Giao diện Mobile"
+    style="display:flex;align-items:center;gap:5px;padding:5px 12px;
+    border-radius:20px;border:none;cursor:pointer;transition:all .22s;
+    font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;
+    background:transparent;color:var(--t3);">
+    <svg width="12" height="14" viewBox="0 0 12 14" fill="none" style="flex-shrink:0;">
+      <rect x="1" y="0.5" width="10" height="13" rx="2" stroke="currentColor" stroke-width="1.3" fill="none"/>
+      <rect x="4" y="11.5" width="4" height="1" rx=".5" fill="currentColor"/>
+    </svg>
+    <span>Mobile</span>
+  </button>
+
+  <button id="btn-pc" onclick="applyLayout('pc')"
+    title="Giao diện PC"
+    style="display:flex;align-items:center;gap:5px;padding:5px 12px;
+    border-radius:20px;border:none;cursor:pointer;transition:all .22s;
+    font-family:'IBM Plex Mono',monospace;font-size:10px;font-weight:600;
+    background:transparent;color:var(--t3);">
+    <svg width="16" height="13" viewBox="0 0 16 13" fill="none" style="flex-shrink:0;">
+      <rect x="0.5" y="0.5" width="15" height="10" rx="1.5" stroke="currentColor" stroke-width="1.3" fill="none"/>
+      <line x1="4" y1="12.5" x2="12" y2="12.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/>
+      <line x1="8" y1="10.5" x2="8" y2="12.5" stroke="currentColor" stroke-width="1.3"/>
+    </svg>
+    <span>PC</span>
+  </button>
+</div>
+
+</body>
+</html>
